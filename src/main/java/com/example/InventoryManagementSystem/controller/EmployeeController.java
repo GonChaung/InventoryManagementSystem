@@ -11,8 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
-import static org.springframework.http.HttpStatus.NOT_FOUND;
+import static org.springframework.http.HttpStatus.*;
 
 @RestController
 @RequestMapping("${api.prefix}/employees")
@@ -21,16 +20,31 @@ public class EmployeeController {
     private EmployeeServiceImpl employeeService;
 
     @PostMapping("/add")
-    public ResponseEntity<Employee> addEmployee(@RequestBody EmployeeDto empDto) {
-        Employee employee = new Employee();
+    public ResponseEntity<ApiResponse> addEmployee(@RequestBody Employee emp) {
+        /*Employee employee = new Employee();
         employee.setFirstName(empDto.getFirstName());
         employee.setLastName(empDto.getLastName());
         employee.setPassword(empDto.getPassword());
         employee.setNrc(empDto.getNrc());
         employee.setAddress(empDto.getAddress());
-        employee.setPhoneNumber(empDto.getPhoneNumber());
-        Employee savedEmployee = employeeService.addEmployee(employee);
-        return ResponseEntity.ok(savedEmployee);
+        employee.setPhoneNumber(empDto.getPhoneNumber());*/
+        try {
+            Employee savedEmployee = employeeService.addEmployee(emp);
+            return ResponseEntity.ok(new ApiResponse("Added", savedEmployee));
+        } catch (Exception e) {
+            return ResponseEntity.status(BAD_REQUEST).body(new ApiResponse("Can't add", null));
+        }
+    }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<ApiResponse> updateEmployee(@PathVariable Long id, @RequestBody Employee employee){
+        Employee updatedEmployee = null;
+        try{
+            updatedEmployee = employeeService.updateEmployeeById(id, employee);
+        } catch (ResourceNotFoundException e){
+            return ResponseEntity.status(NOT_FOUND).body(new ApiResponse(e.getMessage(),null));
+        }
+        return ResponseEntity.ok(new ApiResponse("Updated", updatedEmployee));
     }
 
     @GetMapping
@@ -51,16 +65,6 @@ public class EmployeeController {
         }
     }
 
-    @PutMapping("/update/{id}")
-    public ResponseEntity<ApiResponse> updateEmployee(@PathVariable Long id, @RequestBody Employee employee){
-        Employee updatedEmployee = null;
-        try{
-            updatedEmployee = employeeService.updateEmployeeById(id, employee);
-        } catch (ResourceNotFoundException e){
-            return ResponseEntity.status(NOT_FOUND).body(new ApiResponse(e.getMessage(),null));
-        }
-        return ResponseEntity.ok(new ApiResponse("Updated", updatedEmployee));
-    }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteEmployee(@PathVariable Long id) {
