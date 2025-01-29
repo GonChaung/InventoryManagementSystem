@@ -45,8 +45,13 @@ public interface EmployeeRepository extends CrudRepository<Employee, Long> {
     Employee getEmployeeById(@Param("id") Long id);
 
     @Transactional
+    @Query(value = "SELECT * FROM employee WHERE nrc = :nrc", nativeQuery = true)
+    Employee getEmployeeByNRC(@Param("nrc") String nrc);
+
+    @Transactional
     @Modifying
     @Query(value = "DELETE FROM employee WHERE id = :id", nativeQuery = true)
     int deleteEmployeeById(@Param("id") Long id);
+
 
 }
