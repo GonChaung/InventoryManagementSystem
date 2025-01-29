@@ -3,6 +3,7 @@ package com.example.InventoryManagementSystem.service.impl;
 import com.example.InventoryManagementSystem.exception.ResourceNotFoundException;
 import com.example.InventoryManagementSystem.model.Employee;
 import com.example.InventoryManagementSystem.repository.EmployeeRepository;
+import com.example.InventoryManagementSystem.repository.RoleRepository;
 import com.example.InventoryManagementSystem.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,21 +16,19 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Autowired
     private EmployeeRepository employeeRepository;
 
-    public Employee getEmployeeById(Long id) {
-        return employeeRepository.findById(id).get();
-    }
-    public List<Employee> getEmployeesByRoleId(Long roleId) {
-        return employeeRepository.findByRoleId(roleId);
-    }
+    @Autowired
+    private RoleRepository roleRepository;
 
     @Override
-    public List<Employee> getAllEmployees() {
-        List<Employee> result = (List<Employee>) employeeRepository.getAllEmployee();
-        if(result.size() > 0) {
-            return result;
-        } else {
-            return new ArrayList<Employee>();
+    public Employee addEmployee(Employee employee){
+        int flag = employeeRepository.addEmployee(employee.getFirstName(),employee.getLastName(),
+                employee.getPassword(), employee.getNrc(),
+                employee.getAddress(), employee.getPhoneNumber(), employee.getRole().getId());
+        if (flag == 0){
+            throw new RuntimeException();
         }
+        Employee addedEmployee = employeeRepository.getEmployeeById(employee.getId());
+        return addedEmployee;
     }
 
     @Override
@@ -42,6 +41,22 @@ public class EmployeeServiceImpl implements EmployeeService {
         Employee updatedEmployee = employeeRepository.getEmployeeById(id);
         return updatedEmployee;
     }
+
+    public Employee getEmployeeById(Long id) {
+        return employeeRepository.findById(id).get();
+    }
+
+    @Override
+    public List<Employee> getAllEmployees() {
+        List<Employee> result = (List<Employee>) employeeRepository.getAllEmployee();
+        if(result.size() > 0) {
+            return result;
+        } else {
+            return new ArrayList<Employee>();
+        }
+    }
+
+
 
     @Override
     public void deleteEmployee(Long id) {

@@ -1,5 +1,6 @@
 package com.example.InventoryManagementSystem.controller;
 
+import com.example.InventoryManagementSystem.dto.EmployeeDto;
 import com.example.InventoryManagementSystem.exception.ResourceNotFoundException;
 import com.example.InventoryManagementSystem.model.Employee;
 import com.example.InventoryManagementSystem.response.ApiResponse;
@@ -18,6 +19,19 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 public class EmployeeController {
     @Autowired
     private EmployeeServiceImpl employeeService;
+
+    @PostMapping("/add")
+    public ResponseEntity<Employee> addEmployee(@RequestBody EmployeeDto empDto) {
+        Employee employee = new Employee();
+        employee.setFirstName(empDto.getFirstName());
+        employee.setLastName(empDto.getLastName());
+        employee.setPassword(empDto.getPassword());
+        employee.setNrc(empDto.getNrc());
+        employee.setAddress(empDto.getAddress());
+        employee.setPhoneNumber(empDto.getPhoneNumber());
+        Employee savedEmployee = employeeService.addEmployee(employee);
+        return ResponseEntity.ok(savedEmployee);
+    }
 
     @GetMapping
     public ResponseEntity<List<Employee>> getAllAnimals() {

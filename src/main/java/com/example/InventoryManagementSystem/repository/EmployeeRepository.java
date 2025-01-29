@@ -12,19 +12,26 @@ import java.util.Optional;
 
 public interface EmployeeRepository extends CrudRepository<Employee, Long> {
 
-    @Query(value = "SELECT e FROM employee e WHERE e.first_name = :first_name AND e.last_name = :last_name",
-            nativeQuery = true)
-    List<Employee> findByFirstNameAndLastName(@Param("first_name") String firstName, @Param("last_name") String lastName);
-
-    @Query(value = "SELECT e FROM employee e WHERE e.role_id = :role_id", nativeQuery = true)
-    List<Employee> findByRoleId(@Param("role_id") Long roleId);
-
     @Query(value = "SELECT * FROM employee", nativeQuery = true)
     List<Employee> getAllEmployee();
 
     @Modifying
     @Transactional
-    @Query(value = "UPDATE employee e SET first_name = : first_name, last_name = :last_name, password = :password, nrc = :nrc, address = :address, phone_number = :phone_number WHERE id = :id", nativeQuery = true)
+    @Query(value = "INSERT INTO employee (first_name, last_name, password, nrc, address, phone_number, role_id) " +
+            "VALUES (:first_name, :last_name, :password, :nrc, :address, :phone_number, :role_id)", nativeQuery = true)
+    int addEmployee(
+            @Param("first_name") String firstName,
+            @Param("last_name") String lastName,
+            @Param("password") String password,
+            @Param("nrc") String nrc,
+            @Param("address") String address,
+            @Param("phone_number") String phoneNumber,
+            @Param("role_id") Long roleId
+    );
+
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE employee e SET first_name = :first_name, last_name = :last_name, password = :password, nrc = :nrc, address = :address, phone_number = :phone_number WHERE id = :id", nativeQuery = true)
     int updateEmployeeByid(@Param("id") Long id,
                            @Param("first_name") String firstName,
                            @Param("last_name") String lastName,
