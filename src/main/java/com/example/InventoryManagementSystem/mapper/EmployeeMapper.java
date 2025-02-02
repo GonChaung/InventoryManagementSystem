@@ -10,7 +10,7 @@ public class EmployeeMapper {
     private RoleMapper roleMapper = new RoleMapper();
 
     public EmployeeDto employeeToEmployeeDTO(Employee employee){
-        EmployeeDto employeeDto = new EmployeeDto();
+       EmployeeDto employeeDto = new EmployeeDto();
         employeeDto.setId(employee.getId());
         employeeDto.setFirstName(employee.getFirstName());
         employeeDto.setEmail(employee.getEmail());
@@ -21,8 +21,9 @@ public class EmployeeMapper {
         employeeDto.setPassword(employee.getPassword());
         employeeDto.setPhoneNumber(employee.getPhoneNumber());
         employeeDto.setAddress(employee.getAddress());
-        return employeeDto;
+            return employeeDto;
     }
+
     public Employee employeeDTOToEmployee(EmployeeDto employeeDto){
         Employee employee = new Employee();
         employee.setId(employeeDto.getId());

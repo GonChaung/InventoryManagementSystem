@@ -2,17 +2,19 @@ package com.example.InventoryManagementSystem.model;
 
 import jakarta.persistence.*;
 
+import java.util.Date;
+
 @Entity
-@Table(name = "warehouse")
-public class Warehouse {
+@Table(name = "shipment")
+public class Shipment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
-    private String name;
+    private Date shipmentDate;
 
-    @Column(nullable = false)
-    private String address;
+    @ManyToOne
+    @JoinColumn(name = "order_id", nullable = false)
+    private Order order;
 }
-

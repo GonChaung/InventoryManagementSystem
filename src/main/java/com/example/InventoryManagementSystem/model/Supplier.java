@@ -3,8 +3,8 @@ package com.example.InventoryManagementSystem.model;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "warehouse")
-public class Warehouse {
+@Table(name = "supplier")
+public class Supplier {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -13,6 +13,11 @@ public class Warehouse {
     private String name;
 
     @Column(nullable = false)
-    private String address;
-}
+    private String email;
 
+    @Column(nullable = false)
+    private String address;
+
+    @Column(nullable = false)
+    private String phoneNumber;
+}
