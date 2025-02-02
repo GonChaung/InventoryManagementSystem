@@ -52,8 +52,8 @@ public class EmployeeServiceImpl implements EmployeeService {
                 employee.getFirstName(),
                 employee.getLastName(),
                 employee.getPassword(),
-                employee.getAddress(),
                 employee.getNrc(),
+                employee.getAddress(),
                 employee.getPhoneNumber());
 
         if (flag == 0) {

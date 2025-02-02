@@ -2,7 +2,9 @@ package com.example.InventoryManagementSystem.mapper;
 
 import com.example.InventoryManagementSystem.dto.RoleDto;
 import com.example.InventoryManagementSystem.model.Role;
+import org.springframework.stereotype.Component;
 
+@Component
 public class RoleMapper {
     public RoleDto roleToRoleDTO(Role role){
         RoleDto roleDto = new RoleDto();

@@ -14,6 +14,7 @@ import static org.springframework.http.HttpStatus.*;
 
 @RestController
 @RequestMapping("${api.prefix}/employees")
+@CrossOrigin("*")
 public class EmployeeController {
 
     private final EmployeeService employeeService;

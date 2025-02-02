@@ -3,7 +3,9 @@ import com.example.InventoryManagementSystem.dto.EmployeeDto;
 import com.example.InventoryManagementSystem.dto.RoleDto;
 import com.example.InventoryManagementSystem.model.Employee;
 import com.example.InventoryManagementSystem.model.Role;
+import org.springframework.stereotype.Component;
 
+@Component
 public class EmployeeMapper {
     private RoleMapper roleMapper = new RoleMapper();
 
@@ -11,6 +13,7 @@ public class EmployeeMapper {
         EmployeeDto employeeDto = new EmployeeDto();
         employeeDto.setId(employee.getId());
         employeeDto.setFirstName(employee.getFirstName());
+        employeeDto.setEmail(employee.getEmail());
         employeeDto.setLastName(employee.getLastName());
         RoleDto roleDto = roleMapper.roleToRoleDTO(employee.getRole());
         employeeDto.setRoleDto(roleDto);
@@ -23,6 +26,7 @@ public class EmployeeMapper {
     public Employee employeeDTOToEmployee(EmployeeDto employeeDto){
         Employee employee = new Employee();
         employee.setId(employeeDto.getId());
+        employee.setEmail(employeeDto.getEmail());
         employee.setFirstName(employeeDto.getFirstName());
         employee.setLastName(employeeDto.getLastName());
         employee.setRole(new Role());
