@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-public interface EmployeeRepository extends CrudRepository<User, Long> {
+public interface UserRepository extends CrudRepository<User, Long> {
 
     @Query(value = "SELECT * FROM employee", nativeQuery = true)
     List<User> getAllEmployee();

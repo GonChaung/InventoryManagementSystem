@@ -1,10 +1,16 @@
 package com.example.InventoryManagementSystem.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 
 @Entity
-@Table(name = "warehouse_item")
+@Table(name = "warehouse_items")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class WarehouseItem {
     @jakarta.persistence.Id
     @Id
@@ -22,37 +28,5 @@ public class WarehouseItem {
     @Column(nullable = false)
     private int quantityHold;
 
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Warehouse getWarehouse() {
-        return warehouse;
-    }
-
-    public void setWarehouse(Warehouse warehouse) {
-        this.warehouse = warehouse;
-    }
-
-    public Item getItem() {
-        return item;
-    }
-
-    public void setItem(Item item) {
-        this.item = item;
-    }
-
-    public int getQuantityHold() {
-        return quantityHold;
-    }
-
-    public void setQuantityHold(int quantityHold) {
-        this.quantityHold = quantityHold;
-    }
 
 }

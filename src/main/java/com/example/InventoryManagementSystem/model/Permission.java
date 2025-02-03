@@ -8,7 +8,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name="permission")
+@Table(name="permissions")
 @AllArgsConstructor
 @NoArgsConstructor
 public class Permission {

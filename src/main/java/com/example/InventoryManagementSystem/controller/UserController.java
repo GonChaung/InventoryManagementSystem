@@ -1,8 +1,8 @@
 package com.example.InventoryManagementSystem.controller;
 
-import com.example.InventoryManagementSystem.dto.EmployeeDto;
+import com.example.InventoryManagementSystem.dto.UserDto;
 import com.example.InventoryManagementSystem.exception.ResourceNotFoundException;
-import com.example.InventoryManagementSystem.service.EmployeeService;
+import com.example.InventoryManagementSystem.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,56 +15,56 @@ import static org.springframework.http.HttpStatus.*;
 @RestController
 @RequestMapping("${api.prefix}/employees")
 @CrossOrigin("*")
-public class EmployeeController {
+public class UserController {
 
-    private final EmployeeService employeeService;
+    private final UserService userService;
 
     @Autowired
-    public EmployeeController(EmployeeService employeeService) {
-        this.employeeService = employeeService;
+    public UserController(UserService userService) {
+        this.userService = userService;
     }
 
     @PostMapping
-    public ResponseEntity<EmployeeDto> addEmployee(@RequestBody EmployeeDto empDto) {
+    public ResponseEntity<UserDto> addEmployee(@RequestBody UserDto empDto) {
         if (empDto == null) {
             return ResponseEntity.badRequest().build(); // Return 400 if request body is invalid
         }
 
-        EmployeeDto employeeDto = employeeService.addEmployee(empDto);
+        UserDto userDto = userService.addEmployee(empDto);
         URI location = UriComponentsBuilder
                 .fromUriString("/employees/{id}")
-                .buildAndExpand(employeeDto.getId())
+                .buildAndExpand(userDto.getId())
                 .toUri();
-        return ResponseEntity.created(location).body(employeeDto); // Return 201 Created
+        return ResponseEntity.created(location).body(userDto); // Return 201 Created
     }
 
     @GetMapping
-    public ResponseEntity<List<EmployeeDto>> getAllEmployees() {
-        List<EmployeeDto> employees = employeeService.getAllEmployees();
+    public ResponseEntity<List<UserDto>> getAllEmployees() {
+        List<UserDto> employees = userService.getAllEmployees();
         return employees.isEmpty() ?
                 ResponseEntity.noContent().build() : // Return 204 if no employees found
                 ResponseEntity.ok(employees); // Return 200 with employee list
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<EmployeeDto> getEmployeeById(@PathVariable Long id) {
+    public ResponseEntity<UserDto> getEmployeeById(@PathVariable Long id) {
         try {
-            EmployeeDto employeeDto = employeeService.getEmployeeById(id);
-            return ResponseEntity.ok(employeeDto); // Return 200 if employee found
+            UserDto userDto = userService.getEmployeeById(id);
+            return ResponseEntity.ok(userDto); // Return 200 if employee found
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.status(NOT_FOUND).build(); // Return 404 if not found
         }
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<EmployeeDto> updateEmployee(@PathVariable Long id, @RequestBody EmployeeDto employeeDto) {
-        if (employeeDto == null) {
+    public ResponseEntity<UserDto> updateEmployee(@PathVariable Long id, @RequestBody UserDto userDto) {
+        if (userDto == null) {
             return ResponseEntity.badRequest().build(); // Return 400 if request body is invalid
         }
 
         try {
-            employeeDto = employeeService.updateEmployeeById(id, employeeDto);
-            return ResponseEntity.ok(employeeDto); // Return 200 if updated successfully
+            userDto = userService.updateEmployeeById(id, userDto);
+            return ResponseEntity.ok(userDto); // Return 200 if updated successfully
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.status(NOT_FOUND).body(null); // Return 404 if employee not found
         }
@@ -73,7 +73,7 @@ public class EmployeeController {
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteEmployee(@PathVariable Long id) {
         try {
-            employeeService.deleteEmployee(id);
+            userService.deleteEmployee(id);
             return ResponseEntity.ok("User with ID " + id + " has been deleted."); // Return 200 with success message
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.status(NOT_FOUND).body("User with ID " + id + " not found."); // Return 404 if not found

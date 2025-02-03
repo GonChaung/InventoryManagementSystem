@@ -10,7 +10,7 @@ import org.hibernate.annotations.Cascade;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name="employee")
+@Table(name="users")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,4 +44,5 @@ public class User {
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "warehouse_id", nullable = false)
     private Warehouse warehouse;
+
 }

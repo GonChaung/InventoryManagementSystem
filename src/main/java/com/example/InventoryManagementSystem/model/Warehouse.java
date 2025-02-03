@@ -1,11 +1,17 @@
 package com.example.InventoryManagementSystem.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Entity
-@Table(name = "warehouse")
+@Table(name = "warehouses")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Warehouse {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

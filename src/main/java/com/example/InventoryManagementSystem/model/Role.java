@@ -10,7 +10,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name="role")
+@Table(name="roles")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,36 +30,4 @@ public class Role {
     )
     private Set<Permission> permissions=new HashSet<>();
 
-    public Role(Long id, String roleType, Set<Permission> permissions) {
-        this.id = id;
-        this.roleType = roleType;
-        this.permissions = permissions;
-    }
-
-    public Role() {
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getRoleType() {
-        return roleType;
-    }
-
-    public void setRoleType(String roleType) {
-        this.roleType = roleType;
-    }
-
-    public Set<Permission> getPermissions() {
-        return permissions;
-    }
-
-    public void setPermissions(Set<Permission> permissions) {
-        this.permissions = permissions;
-    }
 }

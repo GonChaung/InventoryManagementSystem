@@ -1,9 +1,17 @@
 package com.example.InventoryManagementSystem.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Entity
-@Table(name = "lot")
+@Table(name = "lots")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Lot {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,4 +30,7 @@ public class Lot {
     @ManyToOne
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;
+
+    @OneToMany(mappedBy = "lot", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<LotItem> lotItems;
 }

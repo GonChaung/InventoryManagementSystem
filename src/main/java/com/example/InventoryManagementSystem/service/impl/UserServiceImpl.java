@@ -1,11 +1,11 @@
 package com.example.InventoryManagementSystem.service.impl;
 
-import com.example.InventoryManagementSystem.dto.EmployeeDto;
+import com.example.InventoryManagementSystem.dto.UserDto;
 import com.example.InventoryManagementSystem.exception.ResourceNotFoundException;
-import com.example.InventoryManagementSystem.mapper.EmployeeMapper;
+import com.example.InventoryManagementSystem.mapper.UserMapper;
 import com.example.InventoryManagementSystem.model.User;
-import com.example.InventoryManagementSystem.repository.EmployeeRepository;
-import com.example.InventoryManagementSystem.service.EmployeeService;
+import com.example.InventoryManagementSystem.repository.UserRepository;
+import com.example.InventoryManagementSystem.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -13,23 +13,23 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-public class EmployeeServiceImpl implements EmployeeService {
+public class UserServiceImpl implements UserService {
 
-    private final EmployeeRepository employeeRepository;
-    private final EmployeeMapper employeeMapper;
+    private final UserRepository userRepository;
+    private final UserMapper userMapper;
 
     @Autowired
-    public EmployeeServiceImpl(EmployeeRepository employeeRepository, EmployeeMapper employeeMapper) {
-        this.employeeRepository = employeeRepository;
-        this.employeeMapper = employeeMapper;
+    public UserServiceImpl(UserRepository userRepository, UserMapper userMapper) {
+        this.userRepository = userRepository;
+        this.userMapper = userMapper;
     }
 
     @Override
-    public EmployeeDto addEmployee(EmployeeDto employeeDto) {
-        User user = employeeMapper.employeeDTOToEmployee(employeeDto);
+    public UserDto addEmployee(UserDto userDto) {
+        User user = userMapper.employeeDTOToEmployee(userDto);
 
         // Use the repository to save the user (assumed to be a method to persist the data)
-        employeeRepository.addEmployee(
+        userRepository.addEmployee(
                 user.getFirstName(),
                 user.getLastName(),
                 user.getPassword(),
@@ -40,15 +40,15 @@ public class EmployeeServiceImpl implements EmployeeService {
         );
 
         User addedUser = getEmployeeByNRC(user.getNrc());
-        return employeeMapper.employeeToEmployeeDTO(addedUser);
+        return userMapper.employeeToEmployeeDTO(addedUser);
     }
 
     @Override
-    public EmployeeDto updateEmployeeById(Long id, EmployeeDto employeeDto) {
-        User user = employeeMapper.employeeDTOToEmployee(employeeDto);
+    public UserDto updateEmployeeById(Long id, UserDto userDto) {
+        User user = userMapper.employeeDTOToEmployee(userDto);
 
         // Update the user details
-        int flag = employeeRepository.updateEmployeeByid(id,
+        int flag = userRepository.updateEmployeeByid(id,
                 user.getFirstName(),
                 user.getLastName(),
                 user.getPassword(),
@@ -65,34 +65,34 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public EmployeeDto getEmployeeById(Long id) {
+    public UserDto getEmployeeById(Long id) {
         User user = findEmployeeById(id);  // A helper method for fetching user by ID
-        return employeeMapper.employeeToEmployeeDTO(user);
+        return userMapper.employeeToEmployeeDTO(user);
     }
 
     @Override
-    public List<EmployeeDto> getAllEmployees() {
-        List<User> result = employeeRepository.getAllEmployee();
+    public List<UserDto> getAllEmployees() {
+        List<User> result = userRepository.getAllEmployee();
         return result.stream()
-                .map(employeeMapper::employeeToEmployeeDTO)
+                .map(userMapper::employeeToEmployeeDTO)
                 .collect(Collectors.toList());
     }
 
     @Override
     public void deleteEmployee(Long id) {
         findEmployeeById(id); // Check if employee exists, throws exception if not
-        employeeRepository.deleteEmployeeById(id);
+        userRepository.deleteEmployeeById(id);
     }
 
     // Helper method to find employee by NRC (re-used logic in addEmployee)
     private User getEmployeeByNRC(String nrc) {
-        return Optional.ofNullable(employeeRepository.getEmployeeByNRC(nrc))
+        return Optional.ofNullable(userRepository.getEmployeeByNRC(nrc))
                 .orElseThrow(() -> new ResourceNotFoundException("User with NRC " + nrc + " not found!"));
     }
 
     // Helper method for finding employee by ID (re-used logic in multiple places)
     private User findEmployeeById(Long id) {
-        return Optional.ofNullable(employeeRepository.getEmployeeById(id))
+        return Optional.ofNullable(userRepository.getEmployeeById(id))
                 .orElseThrow(() -> new ResourceNotFoundException("User not found for ID: " + id));
     }
 }
