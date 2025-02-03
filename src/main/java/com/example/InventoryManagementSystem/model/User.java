@@ -43,5 +43,5 @@ public class User {
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "warehouse_id", nullable = false)
-    private Warehouse warehouse_id;
+    private Warehouse warehouse;
 }

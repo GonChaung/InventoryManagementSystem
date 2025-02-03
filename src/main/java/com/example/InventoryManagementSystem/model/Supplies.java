@@ -35,13 +35,12 @@ public class Supplies {
     @Column(nullable = false)
     private Double totalCost;
 
-    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private PaymentMethod paymentMethod;
+    private String paymentMethod;
 
-    @Enumerated(EnumType.STRING)
+
     @Column(nullable = false)
-    private PaymentStatus paymentStatus;
+    private String paymentStatus;
 
     @Column(nullable = false)
     private Date orderDate;
@@ -49,7 +48,7 @@ public class Supplies {
     @Column(nullable = false)
     private Date receivedDate;
 
-    @Enumerated(EnumType.STRING)
+
     @Column(nullable = false)
-    private ReceivedStatus receivedStatus;
+    private String receivedStatus;
 }

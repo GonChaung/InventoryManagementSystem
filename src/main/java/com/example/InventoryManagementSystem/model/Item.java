@@ -2,6 +2,8 @@ package com.example.InventoryManagementSystem.model;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "item")
 public class Item {
@@ -14,4 +16,7 @@ public class Item {
 
     @Column(nullable = false)
     private Double price;
+
+    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<WarehouseItem> warehouseItems;
 }

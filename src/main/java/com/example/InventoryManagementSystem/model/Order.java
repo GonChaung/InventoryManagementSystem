@@ -17,18 +17,15 @@ public class Order {
     @Column(nullable = false)
     private Double orderDiscount;
 
-    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private PaymentMethod paymentMethod;
+    private String  paymentMethod;
 
-    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private PaymentStatus paymentStatus;
+    private String paymentStatus;
 
     @Column(nullable = false)
     private Double totalCost;
 
-    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private OrderStatus status;
+    private String status;
 }

@@ -12,9 +12,8 @@ public class Lot {
     @Column(nullable = false)
     private String location;
 
-    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private LotStatus status;
+    private String status;
 
     @ManyToOne
     @JoinColumn(name = "warehouse_id", nullable = false)
