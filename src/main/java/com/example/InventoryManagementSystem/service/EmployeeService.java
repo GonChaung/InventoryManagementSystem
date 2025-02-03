@@ -1,7 +1,6 @@
 package com.example.InventoryManagementSystem.service;
 
 import com.example.InventoryManagementSystem.dto.EmployeeDto;
-import com.example.InventoryManagementSystem.model.Employee;
 
 import java.util.List;
 

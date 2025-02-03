@@ -1,7 +1,7 @@
 package com.example.InventoryManagementSystem.mapper;
 import com.example.InventoryManagementSystem.dto.EmployeeDto;
 import com.example.InventoryManagementSystem.dto.RoleDto;
-import com.example.InventoryManagementSystem.model.Employee;
+import com.example.InventoryManagementSystem.model.User;
 import com.example.InventoryManagementSystem.model.Role;
 import org.springframework.stereotype.Component;
 
@@ -9,35 +9,35 @@ import org.springframework.stereotype.Component;
 public class EmployeeMapper {
     private RoleMapper roleMapper = new RoleMapper();
 
-    public EmployeeDto employeeToEmployeeDTO(Employee employee){
+    public EmployeeDto employeeToEmployeeDTO(User user){
        EmployeeDto employeeDto = new EmployeeDto();
-        employeeDto.setId(employee.getId());
-        employeeDto.setFirstName(employee.getFirstName());
-        employeeDto.setEmail(employee.getEmail());
-        employeeDto.setLastName(employee.getLastName());
-        RoleDto roleDto = roleMapper.roleToRoleDTO(employee.getRole());
+        employeeDto.setId(user.getId());
+        employeeDto.setFirstName(user.getFirstName());
+        employeeDto.setEmail(user.getEmail());
+        employeeDto.setLastName(user.getLastName());
+        RoleDto roleDto = roleMapper.roleToRoleDTO(user.getRole());
         employeeDto.setRoleDto(roleDto);
-        employeeDto.setNrc(employee.getNrc());
-        employeeDto.setPassword(employee.getPassword());
-        employeeDto.setPhoneNumber(employee.getPhoneNumber());
-        employeeDto.setAddress(employee.getAddress());
+        employeeDto.setNrc(user.getNrc());
+        employeeDto.setPassword(user.getPassword());
+        employeeDto.setPhoneNumber(user.getPhoneNumber());
+        employeeDto.setAddress(user.getAddress());
             return employeeDto;
     }
 
-    public Employee employeeDTOToEmployee(EmployeeDto employeeDto){
-        Employee employee = new Employee();
-        employee.setId(employeeDto.getId());
-        employee.setEmail(employeeDto.getEmail());
-        employee.setFirstName(employeeDto.getFirstName());
-        employee.setLastName(employeeDto.getLastName());
-        employee.setRole(new Role());
+    public User employeeDTOToEmployee(EmployeeDto employeeDto){
+        User user = new User();
+        user.setId(employeeDto.getId());
+        user.setEmail(employeeDto.getEmail());
+        user.setFirstName(employeeDto.getFirstName());
+        user.setLastName(employeeDto.getLastName());
+        user.setRole(new Role());
         Role role = roleMapper.roleDtoToRole(employeeDto.getRoleDto());
-        employee.setRole(role);
-        employee.setNrc(employeeDto.getNrc());
-        employee.setPassword(employeeDto.getPassword());
-        employee.setPhoneNumber(employeeDto.getPhoneNumber());
-        employee.setAddress(employeeDto.getAddress());
-        return employee;
+        user.setRole(role);
+        user.setNrc(employeeDto.getNrc());
+        user.setPassword(employeeDto.getPassword());
+        user.setPhoneNumber(employeeDto.getPhoneNumber());
+        user.setAddress(employeeDto.getAddress());
+        return user;
     }
 
 }

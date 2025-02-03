@@ -1,6 +1,6 @@
 package com.example.InventoryManagementSystem.repository;
 
-import com.example.InventoryManagementSystem.model.Employee;
+import com.example.InventoryManagementSystem.model.User;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -8,12 +8,11 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
-public interface EmployeeRepository extends CrudRepository<Employee, Long> {
+public interface EmployeeRepository extends CrudRepository<User, Long> {
 
     @Query(value = "SELECT * FROM employee", nativeQuery = true)
-    List<Employee> getAllEmployee();
+    List<User> getAllEmployee();
 
     @Modifying
     @Transactional
@@ -42,11 +41,11 @@ public interface EmployeeRepository extends CrudRepository<Employee, Long> {
 
     @Transactional
     @Query(value = "SELECT * FROM employee where id=:id", nativeQuery = true)
-    Employee getEmployeeById(@Param("id") Long id);
+    User getEmployeeById(@Param("id") Long id);
 
     @Transactional
     @Query(value = "SELECT * FROM employee WHERE nrc = :nrc", nativeQuery = true)
-    Employee getEmployeeByNRC(@Param("nrc") String nrc);
+    User getEmployeeByNRC(@Param("nrc") String nrc);
 
     @Transactional
     @Modifying

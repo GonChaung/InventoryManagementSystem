@@ -74,9 +74,9 @@ public class EmployeeController {
     public ResponseEntity<String> deleteEmployee(@PathVariable Long id) {
         try {
             employeeService.deleteEmployee(id);
-            return ResponseEntity.ok("Employee with ID " + id + " has been deleted."); // Return 200 with success message
+            return ResponseEntity.ok("User with ID " + id + " has been deleted."); // Return 200 with success message
         } catch (ResourceNotFoundException e) {
-            return ResponseEntity.status(NOT_FOUND).body("Employee with ID " + id + " not found."); // Return 404 if not found
+            return ResponseEntity.status(NOT_FOUND).body("User with ID " + id + " not found."); // Return 404 if not found
         } catch (Exception e) {
             return ResponseEntity.status(INTERNAL_SERVER_ERROR).body("Error occurred while deleting employee."); // Return 500 for other errors
         }
