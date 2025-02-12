@@ -13,17 +13,16 @@ import java.util.List;
 public interface UserRepository extends CrudRepository<User, Long> {
 
     @Query(value = "SELECT * FROM users", nativeQuery = true)
-    List<User> getAllEmployee();
+    List<User> getAllUser();
 
     @Modifying
     @Transactional
-    @Query(value = "INSERT INTO employee (first_name, last_name, password, nrc, address, phone_number, role_id, warehouse_id) " +
-            "VALUES (:first_name, :last_name, :password, :nrc, :address, :phone_number, :role_id, :warehouse_id)", nativeQuery = true)
-    int addEmployee(
+    @Query(value = "INSERT INTO users (first_name, last_name, password, address, phone_number, role_id, warehouse_id) " +
+            "VALUES (:first_name, :last_name, :password, :address, :phone_number, :role_id, :warehouse_id)", nativeQuery = true)
+    int addUser(
             @Param("first_name") String firstName,
             @Param("last_name") String lastName,
             @Param("password") String password,
-            @Param("nrc") String nrc,
             @Param("address") String address,
             @Param("phone_number") String phoneNumber,
             @Param("role_id") Long roleId,
@@ -32,28 +31,27 @@ public interface UserRepository extends CrudRepository<User, Long> {
 
     @Modifying
     @Transactional
-    @Query(value = "UPDATE employee e SET first_name = :first_name, last_name = :last_name, password = :password, nrc = :nrc, address = :address, phone_number = :phone_number, warehouse_id = :warehouse_id WHERE id = :id", nativeQuery = true)
-    int updateEmployeeByid(@Param("id") Long id,
+    @Query(value = "UPDATE users e SET first_name = :first_name, last_name = :last_name, password = :password, address = :address, phone_number = :phone_number, warehouse_id = :warehouse_id WHERE id = :id", nativeQuery = true)
+    int updateUserByid(@Param("id") Long id,
                            @Param("first_name") String firstName,
                            @Param("last_name") String lastName,
                            @Param("password") String password,
-                           @Param("nrc") String nrc,
                            @Param("address") String address,
                            @Param("phone_number") String phoneNumber,
                            @Param("warehouse_id") Warehouse warehouseId);
 
     @Transactional
-    @Query(value = "SELECT * FROM employee where id=:id", nativeQuery = true)
-    User getEmployeeById(@Param("id") Long id);
+    @Query(value = "SELECT * FROM users where id=:id", nativeQuery = true)
+    User getUserById(@Param("id") Long id);
 
     @Transactional
-    @Query(value = "SELECT * FROM employee WHERE nrc = :nrc", nativeQuery = true)
-    User getEmployeeByNRC(@Param("nrc") String nrc);
+    @Query(value = "SELECT * FROM users WHERE nrc = :nrc", nativeQuery = true)
+    User getUserByNRC(@Param("nrc") String nrc);
 
     @Transactional
     @Modifying
-    @Query(value = "DELETE FROM employee WHERE id = :id", nativeQuery = true)
-    int deleteEmployeeById(@Param("id") Long id);
+    @Query(value = "DELETE FROM users WHERE id = :id", nativeQuery = true)
+    int deleteUserById(@Param("id") Long id);
 
 
 }

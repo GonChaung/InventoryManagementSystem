@@ -20,6 +20,12 @@ public class Shipment {
     @Temporal(TemporalType.TIMESTAMP)
     private Date shipmentDate;
 
+    @Column(nullable = false)
+    private String status;
+
+    @Column
+    private String delivery_company;
+
     @ManyToOne
     @JoinColumn(name = "order_id", nullable = false)
     private Order order;

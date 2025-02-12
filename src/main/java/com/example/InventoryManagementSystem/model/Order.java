@@ -11,7 +11,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "orders") // "order" is a reserved keyword in some databases
+@Table(name = "orders")
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,16 +25,15 @@ public class Order {
     private Double orderDiscount;
 
     @Column(nullable = false)
-    private String paymentMethod;
-
-    @Column(nullable = false)
-    private String paymentStatus;
-
-    @Column(nullable = false)
     private Double totalCost;
 
     @Column(nullable = false)
     private String status;
+
+    @ManyToOne
+    @JoinColumn(name = "customer_id", nullable = false)
+    private Customer customer;
+
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<OrderItem> orderItems;

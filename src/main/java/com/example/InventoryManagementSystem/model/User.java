@@ -27,9 +27,6 @@ public class User {
     @Column(name="email")
     private String email;
 
-    @Column(name="nrc", nullable = false, unique = true)
-    private String nrc;
-
     @Column(name="address")
     private String address;
 

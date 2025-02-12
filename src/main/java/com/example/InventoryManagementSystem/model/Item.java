@@ -23,9 +23,9 @@ public class Item {
     @Column(nullable = false)
     private Double price;
 
-    @ManyToOne  // ✅ Each item belongs to only one warehouse
-    @JoinColumn(name = "warehouse_id", nullable = false)
-    private Warehouse warehouse;
+    @ManyToOne
+    @JoinColumn(name = "category_id", nullable = false)
+    private Category category;
 
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<LotItem> lotItems;

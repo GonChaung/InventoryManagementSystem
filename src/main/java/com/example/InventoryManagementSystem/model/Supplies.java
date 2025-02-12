@@ -24,24 +24,17 @@ public class Supplies {
     @JoinColumn(name = "item_id", nullable = false)
     private Item item;
 
-    @ManyToOne
-    @JoinColumn(name = "warehouse_id", nullable = false)
-    private Warehouse warehouse;
-
     @Column(nullable = false)
     private int quantity;
 
     @Column(nullable = false)
-    private Double unitCost;
+    private Double unitPrice;
 
     @Column(nullable = false)
     private Double discount;
 
     @Column(nullable = false)
     private Double totalCost;
-
-    @Column(nullable = false)
-    private String paymentMethod;
 
     @Column(nullable = false)
     private String paymentStatus;

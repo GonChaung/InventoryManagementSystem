@@ -17,7 +17,6 @@ public class UserMapper {
         userDto.setLastName(user.getLastName());
         RoleDto roleDto = roleMapper.roleToRoleDTO(user.getRole());
         userDto.setRoleDto(roleDto);
-        userDto.setNrc(user.getNrc());
         userDto.setPassword(user.getPassword());
         userDto.setPhoneNumber(user.getPhoneNumber());
         userDto.setAddress(user.getAddress());
@@ -34,7 +33,6 @@ public class UserMapper {
         user.setRole(new Role());
         Role role = roleMapper.roleDtoToRole(userDto.getRoleDto());
         user.setRole(role);
-        user.setNrc(userDto.getNrc());
         user.setPassword(userDto.getPassword());
         user.setPhoneNumber(userDto.getPhoneNumber());
         user.setAddress(userDto.getAddress());
