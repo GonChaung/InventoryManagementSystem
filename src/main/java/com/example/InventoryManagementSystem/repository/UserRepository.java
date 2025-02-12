@@ -1,6 +1,7 @@
 package com.example.InventoryManagementSystem.repository;
 
 import com.example.InventoryManagementSystem.model.User;
+import com.example.InventoryManagementSystem.model.Warehouse;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -11,13 +12,13 @@ import java.util.List;
 
 public interface UserRepository extends CrudRepository<User, Long> {
 
-    @Query(value = "SELECT * FROM employee", nativeQuery = true)
+    @Query(value = "SELECT * FROM users", nativeQuery = true)
     List<User> getAllEmployee();
 
     @Modifying
     @Transactional
-    @Query(value = "INSERT INTO employee (first_name, last_name, password, nrc, address, phone_number, role_id) " +
-            "VALUES (:first_name, :last_name, :password, :nrc, :address, :phone_number, :role_id)", nativeQuery = true)
+    @Query(value = "INSERT INTO employee (first_name, last_name, password, nrc, address, phone_number, role_id, warehouse_id) " +
+            "VALUES (:first_name, :last_name, :password, :nrc, :address, :phone_number, :role_id, :warehouse_id)", nativeQuery = true)
     int addEmployee(
             @Param("first_name") String firstName,
             @Param("last_name") String lastName,
@@ -25,19 +26,21 @@ public interface UserRepository extends CrudRepository<User, Long> {
             @Param("nrc") String nrc,
             @Param("address") String address,
             @Param("phone_number") String phoneNumber,
-            @Param("role_id") Long roleId
-    );
+            @Param("role_id") Long roleId,
+            @Param("warehouse_id") Warehouse warehouseId
+            );
 
     @Modifying
     @Transactional
-    @Query(value = "UPDATE employee e SET first_name = :first_name, last_name = :last_name, password = :password, nrc = :nrc, address = :address, phone_number = :phone_number WHERE id = :id", nativeQuery = true)
+    @Query(value = "UPDATE employee e SET first_name = :first_name, last_name = :last_name, password = :password, nrc = :nrc, address = :address, phone_number = :phone_number, warehouse_id = :warehouse_id WHERE id = :id", nativeQuery = true)
     int updateEmployeeByid(@Param("id") Long id,
                            @Param("first_name") String firstName,
                            @Param("last_name") String lastName,
                            @Param("password") String password,
                            @Param("nrc") String nrc,
                            @Param("address") String address,
-                           @Param("phone_number") String phoneNumber);
+                           @Param("phone_number") String phoneNumber,
+                           @Param("warehouse_id") Warehouse warehouseId);
 
     @Transactional
     @Query(value = "SELECT * FROM employee where id=:id", nativeQuery = true)

@@ -36,7 +36,8 @@ public class UserServiceImpl implements UserService {
                 user.getNrc(),
                 user.getAddress(),
                 user.getPhoneNumber(),
-                user.getRole().getId()
+                user.getRole().getId(),
+                user.getWarehouse()
         );
 
         User addedUser = getEmployeeByNRC(user.getNrc());
@@ -54,7 +55,8 @@ public class UserServiceImpl implements UserService {
                 user.getPassword(),
                 user.getNrc(),
                 user.getAddress(),
-                user.getPhoneNumber());
+                user.getPhoneNumber(),
+                user.getWarehouse());
 
         if (flag == 0) {
             throw new ResourceNotFoundException("User with Id " + id + " doesn't exist in database!");

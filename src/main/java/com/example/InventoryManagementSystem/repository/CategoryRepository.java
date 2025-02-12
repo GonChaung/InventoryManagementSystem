@@ -1,2 +1,4 @@
-package com.example.InventoryManagementSystem.repository;public class CategoryRepository {
+package com.example.InventoryManagementSystem.repository;
+
+public class CategoryRepository {
 }

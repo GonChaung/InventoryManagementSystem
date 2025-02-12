@@ -1,2 +1,4 @@
-package com.example.InventoryManagementSystem.repository;public class LotRepository {
+package com.example.InventoryManagementSystem.repository;
+
+public class LotRepository {
 }

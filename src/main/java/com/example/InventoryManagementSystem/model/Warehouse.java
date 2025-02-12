@@ -24,9 +24,7 @@ public class Warehouse {
     private String address;
 
     @OneToMany(mappedBy = "warehouse", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<User> users;
-
-    @OneToMany(mappedBy = "warehouse", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<WarehouseItem> warehouseItems;
+    private List<Item> items; // ✅ One warehouse has many items
 }
+
 

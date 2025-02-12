@@ -21,7 +21,8 @@ public class UserMapper {
         userDto.setPassword(user.getPassword());
         userDto.setPhoneNumber(user.getPhoneNumber());
         userDto.setAddress(user.getAddress());
-            return userDto;
+        userDto.setWarehouseId(user.getWarehouse());
+        return userDto;
     }
 
     public User employeeDTOToEmployee(UserDto userDto){
@@ -37,6 +38,7 @@ public class UserMapper {
         user.setPassword(userDto.getPassword());
         user.setPhoneNumber(userDto.getPhoneNumber());
         user.setAddress(userDto.getAddress());
+        user.setWarehouse(userDto.getWarehouseId());
         return user;
     }
 

@@ -1,5 +1,6 @@
 package com.example.InventoryManagementSystem.dto;
 
+import com.example.InventoryManagementSystem.model.Warehouse;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,4 +18,5 @@ public class UserDto {
     private String address;
     private String phoneNumber;
     private RoleDto roleDto;
+    private Warehouse warehouseId;
 }
