@@ -13,7 +13,7 @@ import java.util.List;
 import static org.springframework.http.HttpStatus.*;
 
 @RestController
-@RequestMapping("${api.prefix}/employees")
+@RequestMapping("${api.prefix}/users")
 @CrossOrigin("*")
 public class UserController {
 
