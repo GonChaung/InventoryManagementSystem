@@ -7,15 +7,17 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
+import lombok.EqualsAndHashCode;
+import lombok.experimental.SuperBuilder;
+
+@EqualsAndHashCode(callSuper = true)
+@SuperBuilder
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Table(name = "customers")
-public class Customer {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Customer extends MasterData{
 
     @Column(nullable = false)
     private String firstName;

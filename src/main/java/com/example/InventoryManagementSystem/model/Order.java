@@ -1,5 +1,7 @@
 package com.example.InventoryManagementSystem.model;
 
+import com.example.InventoryManagementSystem.model.constant.OrderStatus;
+import com.example.InventoryManagementSystem.model.converter.StatusConverter;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,15 +9,17 @@ import lombok.NoArgsConstructor;
 import java.util.Date;
 import java.util.List;
 
+import lombok.EqualsAndHashCode;
+import lombok.experimental.SuperBuilder;
+
+@EqualsAndHashCode(callSuper = true)
+@SuperBuilder
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Table(name = "orders")
-public class Order {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Order extends MasterData{
 
     @Column(nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
@@ -28,7 +32,8 @@ public class Order {
     private Double totalCost;
 
     @Column(nullable = false)
-    private String status;
+    @Convert(converter = StatusConverter.class)
+    private OrderStatus orderStatus;
 
     @ManyToOne
     @JoinColumn(name = "customer_id", nullable = false)

@@ -3,8 +3,10 @@ package com.example.InventoryManagementSystem.controller;
 import com.example.InventoryManagementSystem.dto.ItemDto;
 import com.example.InventoryManagementSystem.exception.ResourceNotFoundException;
 import com.example.InventoryManagementSystem.service.ItemService;
+import com.example.InventoryManagementSystem.service.impl.ItemServiceImpl;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpHeaders;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,16 +19,18 @@ import java.util.List;
 @RestController
 @RequestMapping("${api.prefix}/items")
 @CrossOrigin("*")
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class ItemController {
-    private final ItemService itemService;
+
+    @Autowired
+    private final ItemServiceImpl itemServiceImpl;
 
     @PostMapping
     public ResponseEntity<ItemDto> createItem(@RequestBody ItemDto itemDto){
         if (itemDto == null){
             return ResponseEntity.badRequest().build();
         }
-        ItemDto createdItem = itemService.createItem(itemDto);
+        ItemDto createdItem = itemServiceImpl.createItem(itemDto);
         URI location = UriComponentsBuilder
                 .fromUriString("/item/{id}")
                 .buildAndExpand(createdItem.getId())
@@ -37,7 +41,7 @@ public class ItemController {
 
     @GetMapping
     public ResponseEntity<List<ItemDto>> getAllItems(){
-        List<ItemDto> items = itemService.getAllItems();
+        List<ItemDto> items = itemServiceImpl.getAllItems();
         return items.isEmpty() ?
                 ResponseEntity.noContent().build() :
                 ResponseEntity.ok(items);
@@ -46,7 +50,7 @@ public class ItemController {
     @GetMapping("/{id}")
     public ResponseEntity<ItemDto> getItemById(@PathVariable Long id) {
         try {
-            ItemDto itemDto = itemService.getItemById(id);
+            ItemDto itemDto = itemServiceImpl.getItemById(id);
             return ResponseEntity.ok(itemDto);
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -60,7 +64,7 @@ public class ItemController {
         }
 
         try {
-            itemDto = itemService.updateItemById(id, itemDto);
+            itemDto = itemServiceImpl.updateItemById(id, itemDto);
             return ResponseEntity.ok(itemDto); // Return 200 if updated successfully
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null); // Return 404 if item not found
@@ -70,7 +74,7 @@ public class ItemController {
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteItem(@PathVariable Long id){
         try {
-            itemService.deleteItem(id);
+            itemServiceImpl.deleteItem(id);
             return ResponseEntity.ok("Item with id " + id + " has been deleted");
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Item with ID " + id + " not found ");

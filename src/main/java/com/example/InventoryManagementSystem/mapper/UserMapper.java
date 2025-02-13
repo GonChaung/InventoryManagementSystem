@@ -1,43 +1,14 @@
 package com.example.InventoryManagementSystem.mapper;
 import com.example.InventoryManagementSystem.dto.UserDto;
-import com.example.InventoryManagementSystem.dto.RoleDto;
+import com.example.InventoryManagementSystem.dto.RoleDTO;
 import com.example.InventoryManagementSystem.model.User;
 import com.example.InventoryManagementSystem.model.Role;
+import org.mapstruct.Mapper;
+import org.mapstruct.factory.Mappers;
 import org.springframework.stereotype.Component;
 
-@Component
-public class UserMapper {
-    private RoleMapper roleMapper = new RoleMapper();
+@Mapper(componentModel = "spring")
+public interface UserMapper extends BaseMapper<User, UserDto>{
 
-    public UserDto employeeToEmployeeDTO(User user){
-       UserDto userDto = new UserDto();
-        userDto.setId(user.getId());
-        userDto.setFirstName(user.getFirstName());
-        userDto.setEmail(user.getEmail());
-        userDto.setLastName(user.getLastName());
-        RoleDto roleDto = roleMapper.roleToRoleDTO(user.getRole());
-        userDto.setRoleDto(roleDto);
-        userDto.setPassword(user.getPassword());
-        userDto.setPhoneNumber(user.getPhoneNumber());
-        userDto.setAddress(user.getAddress());
-        userDto.setWarehouseId(user.getWarehouse());
-        return userDto;
-    }
-
-    public User employeeDTOToEmployee(UserDto userDto){
-        User user = new User();
-        user.setId(userDto.getId());
-        user.setEmail(userDto.getEmail());
-        user.setFirstName(userDto.getFirstName());
-        user.setLastName(userDto.getLastName());
-        user.setRole(new Role());
-        Role role = roleMapper.roleDtoToRole(userDto.getRoleDto());
-        user.setRole(role);
-        user.setPassword(userDto.getPassword());
-        user.setPhoneNumber(userDto.getPhoneNumber());
-        user.setAddress(userDto.getAddress());
-        user.setWarehouse(userDto.getWarehouseId());
-        return user;
-    }
-
+    UserMapper INSTANCE = Mappers.getMapper(UserMapper.class);
 }

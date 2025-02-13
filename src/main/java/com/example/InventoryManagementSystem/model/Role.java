@@ -9,15 +9,17 @@ import lombok.NoArgsConstructor;
 import java.util.HashSet;
 import java.util.Set;
 
+import lombok.EqualsAndHashCode;
+import lombok.experimental.SuperBuilder;
+
+@EqualsAndHashCode(callSuper = true)
+@SuperBuilder
 @Entity
 @Table(name="roles")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Role {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Role extends MasterData{
 
     @Column(name="role_type", nullable = false, unique = true)
     private String roleType;

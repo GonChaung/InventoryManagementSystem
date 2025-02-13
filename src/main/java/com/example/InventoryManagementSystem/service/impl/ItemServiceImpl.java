@@ -7,8 +7,7 @@ import com.example.InventoryManagementSystem.model.Category;
 import com.example.InventoryManagementSystem.model.Item;
 import com.example.InventoryManagementSystem.repository.CategoryRepository;
 import com.example.InventoryManagementSystem.repository.ItemRepository;
-import com.example.InventoryManagementSystem.service.ItemService;
-import lombok.RequiredArgsConstructor;
+
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,38 +15,39 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor
-public class ItemServiceImpl implements ItemService {
+public class ItemServiceImpl{
 
     private final ItemRepository itemRepository;
     private final CategoryRepository categoryRepository;
     private final ItemMapper itemMapper;
 
-    @Override
+    public ItemServiceImpl(ItemRepository itemRepository, CategoryRepository categoryRepository, ItemMapper itemMapper) {
+        this.itemRepository = itemRepository;
+        this.categoryRepository = categoryRepository;
+        this.itemMapper = itemMapper;
+    }
+
     public List<ItemDto> getAllItems() {
-        return itemRepository.getAllItems().stream().map(itemMapper::itemToItemDto).collect(Collectors.toList());
+        return itemRepository.getAllItems().stream().map(itemMapper::toDto).collect(Collectors.toList());
     }
 
-    @Override
     public ItemDto getItemById(Long id) {
-        return itemMapper.itemToItemDto(itemRepository.findById(id).orElseThrow(() -> new RuntimeException("Item not found")));
+        return itemMapper.toDto(itemRepository.findById(id).orElseThrow(() -> new RuntimeException("Item not found")));
     }
 
-    @Override
     public ItemDto createItem(ItemDto dto) {
-        Item item = itemMapper.itemDtoToItem(dto);
+        Item item = itemMapper.toEntity(dto);
         if (item.getCategory() == null || item.getCategory().getId() == null) {
             Category category = categoryRepository.findById(dto.getCategoryId())
                     .orElseThrow(() -> new RuntimeException("Category not found"));
             item.setCategory(category);
         }
 
-        return itemMapper.itemToItemDto(itemRepository.save(item));
+        return itemMapper.toDto(itemRepository.save(item));
     }
 
-    @Override
     public ItemDto updateItemById(Long id, ItemDto itemDto) {
-        Item item = itemMapper.itemDtoToItem(itemDto);
+        Item item = itemMapper.toEntity(itemDto);
         int flag = itemRepository.updateItemById(id, item.getName(), item.getPrice(), item.getCategory().getId());
 
         if (flag == 0) {
@@ -57,7 +57,6 @@ public class ItemServiceImpl implements ItemService {
         return getItemById(id);
     }
 
-    @Override
     public void deleteItem(Long id) {
         findById(id);
         itemRepository.deleteItemById(id);

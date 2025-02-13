@@ -6,22 +6,23 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
+import lombok.EqualsAndHashCode;
+import lombok.experimental.SuperBuilder;
 
+@EqualsAndHashCode(callSuper = true)
+@SuperBuilder
 @Entity
 @Table(name = "lots")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Lot {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Lot extends MasterData{
 
     @Column(nullable = false)
     private String location;
 
     @Column(nullable = false)
-    private String status;
+    private String lotStatus;
 
     @ManyToOne
     @JoinColumn(name = "warehouse_id", nullable = false)

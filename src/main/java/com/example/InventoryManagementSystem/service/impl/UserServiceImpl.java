@@ -26,7 +26,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto createUser(UserDto userDto) {
-        User user = userMapper.employeeDTOToEmployee(userDto);
+        User user = userMapper.toEntity(userDto);
         // Use the repository to save the user (assumed to be a method to persist the data)
         userRepository.addUser(
                 user.getFirstName(),
@@ -37,12 +37,12 @@ public class UserServiceImpl implements UserService {
                 user.getRole().getId(),
                 user.getWarehouse()
         );
-        return userMapper.employeeToEmployeeDTO(user);
+        return userMapper.toDto(user);
     }
 
     @Override
     public UserDto updateUserById(Long id, UserDto userDto) {
-        User user = userMapper.employeeDTOToEmployee(userDto);
+        User user = userMapper.toEntity(userDto);
 
         // Update the user details
         int flag = userRepository.updateUserByid(id,
@@ -64,14 +64,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto getUserById(Long id) {
         User user = findUserById(id);  // A helper method for fetching user by ID
-        return userMapper.employeeToEmployeeDTO(user);
+        return userMapper.toDto(user);
     }
 
     @Override
     public List<UserDto> getAllUsers() {
         List<User> result = userRepository.getAllUser();
         return result.stream()
-                .map(userMapper::employeeToEmployeeDTO)
+                .map(userMapper::toDto)
                 .collect(Collectors.toList());
     }
 
