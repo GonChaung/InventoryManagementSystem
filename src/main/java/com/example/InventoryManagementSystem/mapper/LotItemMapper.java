@@ -8,11 +8,11 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class LotItemMapper {
-    public LotItemDto toDTO(LotItem lotItem) {
+    public LotItemDto lotToLotDto(LotItem lotItem) {
         return new LotItemDto(lotItem.getId(), lotItem.getLot().getId(), lotItem.getItem().getId(), lotItem.getQuantity());
     }
 
-    public LotItem toEntity(LotItemDto dto, Lot lot, Item item) {
+    public LotItem lotDtoToLot(LotItemDto dto, Lot lot, Item item) {
         return new LotItem(dto.getId(), lot, item, dto.getQuantity());
     }
 }

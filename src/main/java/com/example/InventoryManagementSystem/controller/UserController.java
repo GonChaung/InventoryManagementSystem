@@ -30,7 +30,7 @@ public class UserController {
             return ResponseEntity.badRequest().build(); // Return 400 if request body is invalid
         }
 
-        UserDto userDto = userService.addUser(empDto);
+        UserDto userDto = userService.createUser(empDto);
         URI location = UriComponentsBuilder
                 .fromUriString("/employees/{id}")
                 .buildAndExpand(userDto.getId())

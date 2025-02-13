@@ -10,11 +10,11 @@ import java.util.ArrayList;
 
 @Component
 public class LotMapper {
-    public LotDto toDTO(Lot lot) {
+    public LotDto lotToLotDto(Lot lot) {
         return new LotDto(lot.getId(), lot.getLocation(), lot.getStatus(), lot.getWarehouse().getId(), lot.getCategory().getId());
     }
 
-    public Lot toEntity(LotDto dto, Warehouse warehouse, Category category) {
+    public Lot lotDtoToLot(LotDto dto, Warehouse warehouse, Category category) {
         return new Lot(dto.getId(), dto.getLocation(), dto.getStatus(), warehouse, category, new ArrayList<>());
     }
 }

@@ -25,7 +25,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto addUser(UserDto userDto) {
+    public UserDto createUser(UserDto userDto) {
         User user = userMapper.employeeDTOToEmployee(userDto);
         // Use the repository to save the user (assumed to be a method to persist the data)
         userRepository.addUser(

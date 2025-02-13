@@ -5,7 +5,7 @@ import com.example.InventoryManagementSystem.dto.UserDto;
 import java.util.List;
 
 public interface UserService {
-    UserDto addUser(UserDto userDto);
+    UserDto createUser(UserDto userDto);
     UserDto getUserById(Long id);
     List<UserDto> getAllUsers();
     UserDto updateUserById(Long id, UserDto userDto);
