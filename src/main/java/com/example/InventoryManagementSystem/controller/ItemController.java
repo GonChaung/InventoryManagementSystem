@@ -2,17 +2,13 @@ package com.example.InventoryManagementSystem.controller;
 
 import com.example.InventoryManagementSystem.dto.ItemDto;
 import com.example.InventoryManagementSystem.exception.ResourceNotFoundException;
-import com.example.InventoryManagementSystem.service.ItemService;
 import com.example.InventoryManagementSystem.service.impl.ItemServiceImpl;
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
-
-import java.awt.*;
 import java.net.URI;
 import java.util.List;
 

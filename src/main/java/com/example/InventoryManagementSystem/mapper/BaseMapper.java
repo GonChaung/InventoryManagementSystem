@@ -7,7 +7,6 @@ import org.mapstruct.MappingTarget;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring")
 public interface BaseMapper<T, D> {
 
     // Convert from entity to DTO

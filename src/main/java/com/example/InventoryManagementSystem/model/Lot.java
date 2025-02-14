@@ -1,5 +1,6 @@
 package com.example.InventoryManagementSystem.model;
 
+import com.example.InventoryManagementSystem.model.constant.LotStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,7 +23,7 @@ public class Lot extends MasterData{
     private String location;
 
     @Column(nullable = false)
-    private String lotStatus;
+    private LotStatus lotStatus;
 
     @ManyToOne
     @JoinColumn(name = "warehouse_id", nullable = false)

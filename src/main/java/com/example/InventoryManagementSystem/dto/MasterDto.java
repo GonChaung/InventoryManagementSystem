@@ -1,14 +1,16 @@
 package com.example.InventoryManagementSystem.dto;
 
+import com.example.InventoryManagementSystem.model.constant.Status;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class LotItemDto extends MasterDto{
-   private Long lotId;
-   private Long itemId;
-   private int quantity;
+public class MasterDto {
+    private Long id;
+
+
 }

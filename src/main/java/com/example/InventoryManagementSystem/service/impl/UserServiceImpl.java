@@ -1,13 +1,18 @@
 package com.example.InventoryManagementSystem.service.impl;
 
-import com.example.InventoryManagementSystem.dto.UserDto;
+import com.example.InventoryManagementSystem.dto.user.UserCreateDTO;
+import com.example.InventoryManagementSystem.dto.user.UserResponseDTO;
+import com.example.InventoryManagementSystem.dto.user.UserUpdateDto;
 import com.example.InventoryManagementSystem.exception.ResourceNotFoundException;
 import com.example.InventoryManagementSystem.mapper.UserMapper;
 import com.example.InventoryManagementSystem.model.User;
+import com.example.InventoryManagementSystem.model.constant.Status;
 import com.example.InventoryManagementSystem.repository.UserRepository;
 import com.example.InventoryManagementSystem.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -25,23 +30,27 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto createUser(UserDto userDto) {
-        User user = userMapper.toEntity(userDto);
+    public UserResponseDTO createUser(UserCreateDTO userCreateDTO) {
+        User user = userMapper.toEntity(userCreateDTO);
         // Use the repository to save the user (assumed to be a method to persist the data)
-        userRepository.addUser(
+        Integer id = userRepository.addUser(
                 user.getFirstName(),
                 user.getLastName(),
                 user.getPassword(),
                 user.getAddress(),
                 user.getPhoneNumber(),
                 user.getRole().getId(),
-                user.getWarehouse()
+                user.getWarehouse().getId(),
+                Status.ACTIVE.getValue(),
+                LocalDateTime.now(),
+                LocalDateTime.now(),
+                null, null
         );
-        return userMapper.toDto(user);
+        return userMapper.toDto(findUserById((long)id));
     }
 
     @Override
-    public UserDto updateUserById(Long id, UserDto userDto) {
+    public UserResponseDTO updateUserById(Long id, UserUpdateDto userDto) {
         User user = userMapper.toEntity(userDto);
 
         // Update the user details
@@ -51,7 +60,9 @@ public class UserServiceImpl implements UserService {
                 user.getPassword(),
                 user.getAddress(),
                 user.getPhoneNumber(),
-                user.getWarehouse());
+                user.getWarehouse().getId(),
+                user.getEmail(),
+                LocalDateTime.now());
 
         if (flag == 0) {
             throw new ResourceNotFoundException("User with Id " + id + " doesn't exist in database!");
@@ -62,18 +73,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto getUserById(Long id) {
+    public UserResponseDTO getUserById(Long id) {
         User user = findUserById(id);  // A helper method for fetching user by ID
         return userMapper.toDto(user);
     }
 
     @Override
-    public List<UserDto> getAllUsers() {
+    public List<UserResponseDTO> getAllUsers() {
         List<User> result = userRepository.getAllUser();
         return result.stream()
-                .map(userMapper::toDto)
+                .map(user -> userMapper.toDto(user))
                 .collect(Collectors.toList());
     }
+
 
     @Override
     public void deleteUser(Long id) {

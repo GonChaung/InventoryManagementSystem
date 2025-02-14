@@ -24,7 +24,7 @@ public class Role extends MasterData{
     @Column(name="role_type", nullable = false, unique = true)
     private String roleType;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(
             name = "role_permission",
             joinColumns = @JoinColumn(name = "role_id"),

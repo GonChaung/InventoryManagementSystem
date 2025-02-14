@@ -26,6 +26,7 @@ public abstract class MasterData {
 
     @Column
     private LocalDateTime createdAt = LocalDateTime.now();
+
     @Column
     private LocalDateTime updatedAt = LocalDateTime.now();
 

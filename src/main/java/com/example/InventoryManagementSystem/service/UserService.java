@@ -1,13 +1,15 @@
 package com.example.InventoryManagementSystem.service;
 
-import com.example.InventoryManagementSystem.dto.UserDto;
+import com.example.InventoryManagementSystem.dto.user.UserCreateDTO;
+import com.example.InventoryManagementSystem.dto.user.UserResponseDTO;
+import com.example.InventoryManagementSystem.dto.user.UserUpdateDto;
 
 import java.util.List;
 
 public interface UserService {
-    UserDto createUser(UserDto userDto);
-    UserDto getUserById(Long id);
-    List<UserDto> getAllUsers();
-    UserDto updateUserById(Long id, UserDto userDto);
+    UserResponseDTO createUser(UserCreateDTO userCreateDTO);
+    UserResponseDTO getUserById(Long id);
+    List<UserResponseDTO> getAllUsers();
+    UserResponseDTO updateUserById(Long id, UserUpdateDto userDto);
     void deleteUser(Long id);
 }

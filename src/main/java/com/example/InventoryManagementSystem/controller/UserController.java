@@ -1,6 +1,8 @@
 package com.example.InventoryManagementSystem.controller;
 
-import com.example.InventoryManagementSystem.dto.UserDto;
+import com.example.InventoryManagementSystem.dto.user.UserCreateDTO;
+import com.example.InventoryManagementSystem.dto.user.UserResponseDTO;
+import com.example.InventoryManagementSystem.dto.user.UserUpdateDto;
 import com.example.InventoryManagementSystem.exception.ResourceNotFoundException;
 import com.example.InventoryManagementSystem.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,12 +27,12 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<UserDto> addEmployee(@RequestBody UserDto empDto) {
-        if (empDto == null) {
+    public ResponseEntity<UserResponseDTO> addUser(@RequestBody UserCreateDTO userCreateDTO) {
+        if (userCreateDTO == null) {
             return ResponseEntity.badRequest().build(); // Return 400 if request body is invalid
         }
 
-        UserDto userDto = userService.createUser(empDto);
+        UserResponseDTO userDto = userService.createUser(userCreateDTO);
         URI location = UriComponentsBuilder
                 .fromUriString("/employees/{id}")
                 .buildAndExpand(userDto.getId())
@@ -39,17 +41,17 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<List<UserDto>> getAllEmployees() {
-        List<UserDto> employees = userService.getAllUsers();
+    public ResponseEntity<List<UserResponseDTO>> getAllEmployees() {
+        List<UserResponseDTO> employees = userService.getAllUsers();
         return employees.isEmpty() ?
                 ResponseEntity.noContent().build() : // Return 204 if no employees found
                 ResponseEntity.ok(employees); // Return 200 with employee list
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserDto> getEmployeeById(@PathVariable Long id) {
+    public ResponseEntity<UserResponseDTO> getEmployeeById(@PathVariable Long id) {
         try {
-            UserDto userDto = userService.getUserById(id);
+            UserResponseDTO userDto = userService.getUserById(id);
             return ResponseEntity.ok(userDto); // Return 200 if employee found
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.status(NOT_FOUND).build(); // Return 404 if not found
@@ -57,14 +59,13 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UserDto> updateEmployee(@PathVariable Long id, @RequestBody UserDto userDto) {
+    public ResponseEntity<UserResponseDTO> updateEmployee(@PathVariable Long id, @RequestBody UserUpdateDto userDto) {
         if (userDto == null) {
             return ResponseEntity.badRequest().build(); // Return 400 if request body is invalid
         }
-
         try {
-            userDto = userService.updateUserById(id, userDto);
-            return ResponseEntity.ok(userDto); // Return 200 if updated successfully
+            UserResponseDTO userResponseDTO = userService.updateUserById(id, userDto);
+            return ResponseEntity.ok(userResponseDTO); // Return 200 if updated successfully
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.status(NOT_FOUND).body(null); // Return 404 if employee not found
         }
