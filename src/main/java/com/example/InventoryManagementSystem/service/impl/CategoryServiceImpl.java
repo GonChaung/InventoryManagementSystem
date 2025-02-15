@@ -76,7 +76,8 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public void deleteCategory(Long id) {
-
+        findCategoryById(id); // Check if employee exists, throws exception if not
+        categoryRepository.deleteCategoryById(id);
     }
 
     private Category findCategoryById(Long id){

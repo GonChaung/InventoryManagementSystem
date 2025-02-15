@@ -17,10 +17,9 @@ public interface CategoryRepository extends CrudRepository<Category, Long> {
     @Query(value = "SELECT * FROM categories", nativeQuery = true)
     List<Category> getAllCategories();
 
-    @Modifying
     @Transactional
     @Query(value = "INSERT INTO categories (name, status, created_at, updated_at, created_by_id, updated_by_id) " +
-            "VALUES (:name, :status, : created_at, :updated_at, :created_by_id, updated_by_id)", nativeQuery = true)
+            "VALUES (:name, :status, :created_at, :updated_at, :created_by_id, :updated_by_id)" + "RETURNING id", nativeQuery = true)
     int createCategory(@Param("name") String name,
                        @Param("status") Integer status,
                        @Param("created_at")LocalDateTime createdAt,
