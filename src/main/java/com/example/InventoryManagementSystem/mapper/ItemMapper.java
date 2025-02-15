@@ -5,6 +5,7 @@ import com.example.InventoryManagementSystem.dto.item.MasterItemDTO;
 import com.example.InventoryManagementSystem.model.Item;
 import com.example.InventoryManagementSystem.dto.ItemDto;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
 
@@ -15,6 +16,7 @@ public interface ItemMapper extends BaseMapper<Item, MasterItemDTO> {
     Item toEntity(MasterItemDTO masterItemDTO);
 
     @Override
+    @Mapping(target = "categoryId", expression = "java(item.getCategory() != null ? item.getCategory().getId() : null)")
     ItemResponseDTO toDto(Item item);
 
 }

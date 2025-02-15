@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ItemRepository extends CrudRepository<Item, Long> {
@@ -19,14 +20,15 @@ public interface ItemRepository extends CrudRepository<Item, Long> {
 
     @Transactional
     @Query(value = "INSERT INTO items (name, price, category_id, status, created_at, updated_at, created_by_id, updated_by_id) " +
-            "VALUES (:name, :price, :category_id, :status, :created_at, :updated_at, :created_by_id, updated_by_id) " +
+            "VALUES (:name, :price, :category_id, :status, :created_at, :updated_at, :created_by_id, :updated_by_id) " +
             "RETURNING id", nativeQuery = true)
     int createItem(
             @Param("name") String name,
             @Param("price") Double price,
             @Param("category_id") Long categoryId,
             @Param("status") Integer status,
-            @Param("created_at")LocalDateTime crearted,
+            @Param("created_at")LocalDateTime creartedAt,
+            @Param("updated_at") LocalDateTime updatedAt,
             @Param("created_by_id") Long createdByID,
             @Param("updated_by_id") Long updated_by_id
             );
@@ -49,5 +51,8 @@ public interface ItemRepository extends CrudRepository<Item, Long> {
     @Transactional
     @Query(value = "DELETE FROM items WHERE id = :id", nativeQuery = true)
     int deleteItemById(@Param("id") Long id);
+
+    @Query("SELECT i FROM Item i JOIN FETCH i.category WHERE i.id = :id")
+    Optional<Item> findItemById(@Param("id") Long id);
 }
 

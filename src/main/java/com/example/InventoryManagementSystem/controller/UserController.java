@@ -69,12 +69,12 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UserResponseDTO> updateEmployee(@PathVariable Long id, @RequestBody UserUpdateDTO userDto) {
-        if (userDto == null) {
+    public ResponseEntity<UserResponseDTO> updateEmployee(@PathVariable Long id, @RequestBody UserUpdateDTO userUpdateDto) {
+        if (userUpdateDto == null) {
             return ResponseEntity.badRequest().build(); // Return 400 if request body is invalid
         }
         try {
-            UserResponseDTO userResponseDTO = userService.updateUserById(id, userDto);
+            UserResponseDTO userResponseDTO = userService.updateUserById(id, userUpdateDto);
             return ResponseEntity.ok(userResponseDTO); // Return 200 if updated successfully
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.status(NOT_FOUND).body(null); // Return 404 if employee not found

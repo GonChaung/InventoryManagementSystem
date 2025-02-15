@@ -3,7 +3,6 @@ package com.example.InventoryManagementSystem.service;
 import com.example.InventoryManagementSystem.dto.item.ItemCreateDTO;
 import com.example.InventoryManagementSystem.dto.item.ItemResponseDTO;
 import com.example.InventoryManagementSystem.dto.item.ItemUpdateDTO;
-import com.example.InventoryManagementSystem.dto.user.UserCreateDTO;
 
 import java.util.List;
 
