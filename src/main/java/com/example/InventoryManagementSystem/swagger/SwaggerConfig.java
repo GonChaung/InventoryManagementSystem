@@ -12,9 +12,9 @@ public class SwaggerConfig {
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
                 .info(new Info()
-                        .title("Inventory management system")
+                        .title("Inventory Management System")
                         .version("1.0")
                         .description("API Documentation for the Project")
-                        .contact(new Contact().name("Gon Chaung").email("donchuang@email.com")));
+                        .contact(new Contact().name("Gon Chaung").email("gonChaung.dev@gmail.com")));
     }
 }

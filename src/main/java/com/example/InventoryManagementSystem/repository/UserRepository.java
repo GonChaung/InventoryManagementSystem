@@ -20,8 +20,8 @@ public interface UserRepository extends CrudRepository<User, Long> {
     List<User> getAllUser();
 
     @Transactional
-    @Query(value = "INSERT INTO users (first_name, last_name, password, address, phone_number, role_id, warehouse_id, status, created_at, updated_at, created_by_id, updated_by_id) " +
-            "VALUES (:first_name, :last_name, :password, :address, :phone_number, :role_id, :warehouse_id, :status, :created_at, :updated_at, :created_by_id, :updated_by_id) " +
+    @Query(value = "INSERT INTO users (first_name, last_name, password, address, phone_number, email, role_id, warehouse_id, status, created_at, updated_at, created_by_id, updated_by_id) " +
+            "VALUES (:first_name, :last_name, :password, :address, :phone_number, :email, :role_id, :warehouse_id, :status, :created_at, :updated_at, :created_by_id, :updated_by_id) " +
             "RETURNING id", nativeQuery = true)
     Integer addUser(
             @Param("first_name") String firstName,
@@ -29,6 +29,7 @@ public interface UserRepository extends CrudRepository<User, Long> {
             @Param("password") String password,
             @Param("address") String address,
             @Param("phone_number") String phoneNumber,
+            @Param("email") String email,
             @Param("role_id") Long roleId,
             @Param("warehouse_id") Long warehouseId,
             @Param("status") Integer status,
@@ -57,9 +58,6 @@ public interface UserRepository extends CrudRepository<User, Long> {
     @Query(value = "SELECT * FROM users where id=:id", nativeQuery = true)
     User getUserById(@Param("id") Long id);
 
-    @Transactional
-    @Query(value = "SELECT * FROM users WHERE nrc = :nrc", nativeQuery = true)
-    User getUserByNRC(@Param("nrc") String nrc);
 
     @Transactional
     @Modifying

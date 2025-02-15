@@ -5,12 +5,15 @@ import com.example.InventoryManagementSystem.dto.user.UserResponseDTO;
 import com.example.InventoryManagementSystem.dto.user.UserUpdateDto;
 import com.example.InventoryManagementSystem.exception.ResourceNotFoundException;
 import com.example.InventoryManagementSystem.service.UserService;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 import java.net.URI;
 import java.util.List;
+import org.slf4j.Logger;
 
 import static org.springframework.http.HttpStatus.*;
 
@@ -20,6 +23,7 @@ import static org.springframework.http.HttpStatus.*;
 public class UserController {
 
     private final UserService userService;
+    private static final Logger log = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
     public UserController(UserService userService) {
@@ -27,7 +31,7 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<UserResponseDTO> addUser(@RequestBody UserCreateDTO userCreateDTO) {
+    public ResponseEntity<UserResponseDTO> createUser(@RequestBody UserCreateDTO userCreateDTO) {
         if (userCreateDTO == null) {
             return ResponseEntity.badRequest().build(); // Return 400 if request body is invalid
         }
@@ -41,11 +45,17 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<List<UserResponseDTO>> getAllEmployees() {
-        List<UserResponseDTO> employees = userService.getAllUsers();
-        return employees.isEmpty() ?
-                ResponseEntity.noContent().build() : // Return 204 if no employees found
-                ResponseEntity.ok(employees); // Return 200 with employee list
+    public ResponseEntity<List<UserResponseDTO>> getAllUsers() {
+        try {
+            List<UserResponseDTO> employees = userService.getAllUsers();
+            if (employees.isEmpty()) {
+                return ResponseEntity.noContent().build(); // Return 204 if no users
+            }
+            return ResponseEntity.ok(employees);
+        } catch (Exception e) {
+            log.error("Error fetching users: {}", e.getMessage(), e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build(); // Return 500
+        }
     }
 
     @GetMapping("/{id}")

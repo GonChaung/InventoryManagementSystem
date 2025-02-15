@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -39,6 +40,7 @@ public class UserServiceImpl implements UserService {
                 user.getPassword(),
                 user.getAddress(),
                 user.getPhoneNumber(),
+                user.getEmail(),
                 user.getRole().getId(),
                 user.getWarehouse().getId(),
                 Status.ACTIVE.getValue(),
@@ -81,8 +83,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserResponseDTO> getAllUsers() {
         List<User> result = userRepository.getAllUser();
+        if (result == null || result.isEmpty()) {
+            return Collections.emptyList(); // Ensure no exceptions occur on empty data
+        }
         return result.stream()
-                .map(user -> userMapper.toDto(user))
+                .map(userMapper::toDto)
                 .collect(Collectors.toList());
     }
 

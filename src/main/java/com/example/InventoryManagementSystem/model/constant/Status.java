@@ -1,9 +1,7 @@
 package com.example.InventoryManagementSystem.model.constant;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-@AllArgsConstructor
 @Getter
 public enum Status implements BaseEnum<Integer>{
     ACTIVE(1),
@@ -11,6 +9,10 @@ public enum Status implements BaseEnum<Integer>{
     DELETED(2);
 
     private final int value;
+
+    Status(int value) {
+        this.value = value;
+    }
 
     @Override
     public Integer getValue() {
