@@ -1,6 +1,8 @@
 package com.example.InventoryManagementSystem.controller;
 
 import com.example.InventoryManagementSystem.dto.ItemDto;
+import com.example.InventoryManagementSystem.dto.item.ItemCreateDTO;
+import com.example.InventoryManagementSystem.dto.item.ItemResponseDTO;
 import com.example.InventoryManagementSystem.exception.ResourceNotFoundException;
 import com.example.InventoryManagementSystem.service.impl.ItemServiceImpl;
 import lombok.AllArgsConstructor;
@@ -18,15 +20,15 @@ import java.util.List;
 @AllArgsConstructor
 public class ItemController {
 
-    @Autowired
+    /*@Autowired
     private final ItemServiceImpl itemServiceImpl;
 
     @PostMapping
-    public ResponseEntity<ItemDto> createItem(@RequestBody ItemDto itemDto){
+    public ResponseEntity<ItemDto> createItem(@RequestBody ItemCreateDTO itemDto){
         if (itemDto == null){
             return ResponseEntity.badRequest().build();
         }
-        ItemDto createdItem = itemServiceImpl.createItem(itemDto);
+        ItemResponseDTO createdItem = itemServiceImpl.createItem(ItemCreateDTO());
         URI location = UriComponentsBuilder
                 .fromUriString("/item/{id}")
                 .buildAndExpand(createdItem.getId())
@@ -77,5 +79,5 @@ public class ItemController {
         } catch(Exception e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred while deleting item.");
         }
-    }
+    }*/
 }

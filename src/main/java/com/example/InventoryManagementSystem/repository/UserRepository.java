@@ -45,12 +45,12 @@ public interface UserRepository extends CrudRepository<User, Long> {
     @Query(value = "UPDATE users e SET first_name = :first_name, last_name = :last_name, password = :password, address = :address, phone_number = :phone_number, warehouse_id = :warehouse_id" +
             ", email = :email, updated_at = :updated_at WHERE id = :id", nativeQuery = true)
     int updateUserByid(@Param("id") Long id,
-                           @Param("first_name") String firstName,
-                           @Param("last_name") String lastName,
-                           @Param("password") String password,
-                           @Param("address") String address,
-                           @Param("phone_number") String phoneNumber,
-                           @Param("warehouse_id") Long warehouseId,
+                       @Param("first_name") String firstName,
+                       @Param("last_name") String lastName,
+                       @Param("password") String password,
+                       @Param("address") String address,
+                       @Param("phone_number") String phoneNumber,
+                       @Param("warehouse_id") Long warehouseId,
                        @Param("email") String email,
                        @Param("updated_at") LocalDateTime updatedAt);
 

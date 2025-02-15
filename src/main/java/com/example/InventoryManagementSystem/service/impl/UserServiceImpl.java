@@ -2,7 +2,7 @@ package com.example.InventoryManagementSystem.service.impl;
 
 import com.example.InventoryManagementSystem.dto.user.UserCreateDTO;
 import com.example.InventoryManagementSystem.dto.user.UserResponseDTO;
-import com.example.InventoryManagementSystem.dto.user.UserUpdateDto;
+import com.example.InventoryManagementSystem.dto.user.UserUpdateDTO;
 import com.example.InventoryManagementSystem.exception.ResourceNotFoundException;
 import com.example.InventoryManagementSystem.mapper.UserMapper;
 import com.example.InventoryManagementSystem.model.User;
@@ -33,7 +33,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserResponseDTO createUser(UserCreateDTO userCreateDTO) {
         User user = userMapper.toEntity(userCreateDTO);
-        // Use the repository to save the user (assumed to be a method to persist the data)
         Integer id = userRepository.addUser(
                 user.getFirstName(),
                 user.getLastName(),
@@ -52,7 +51,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserResponseDTO updateUserById(Long id, UserUpdateDto userDto) {
+    public UserResponseDTO updateUserById(Long id, UserUpdateDTO userDto) {
         User user = userMapper.toEntity(userDto);
 
         // Update the user details

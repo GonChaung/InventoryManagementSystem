@@ -2,7 +2,7 @@ package com.example.InventoryManagementSystem.controller;
 
 import com.example.InventoryManagementSystem.dto.user.UserCreateDTO;
 import com.example.InventoryManagementSystem.dto.user.UserResponseDTO;
-import com.example.InventoryManagementSystem.dto.user.UserUpdateDto;
+import com.example.InventoryManagementSystem.dto.user.UserUpdateDTO;
 import com.example.InventoryManagementSystem.exception.ResourceNotFoundException;
 import com.example.InventoryManagementSystem.service.UserService;
 import org.slf4j.LoggerFactory;
@@ -69,7 +69,7 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UserResponseDTO> updateEmployee(@PathVariable Long id, @RequestBody UserUpdateDto userDto) {
+    public ResponseEntity<UserResponseDTO> updateEmployee(@PathVariable Long id, @RequestBody UserUpdateDTO userDto) {
         if (userDto == null) {
             return ResponseEntity.badRequest().build(); // Return 400 if request body is invalid
         }
