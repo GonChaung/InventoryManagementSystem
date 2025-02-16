@@ -11,6 +11,4 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class MasterDto {
     private Long id;
-
-
 }
