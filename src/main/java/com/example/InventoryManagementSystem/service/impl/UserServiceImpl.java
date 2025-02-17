@@ -33,7 +33,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserResponseDTO createUser(UserCreateDTO userCreateDTO) {
         User user = userMapper.toEntity(userCreateDTO);
-        Integer id = userRepository.addUser(
+        Integer id = userRepository.createUser(
                 user.getFirstName(),
                 user.getLastName(),
                 user.getPassword(),

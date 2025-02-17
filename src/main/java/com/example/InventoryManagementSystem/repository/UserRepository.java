@@ -23,7 +23,7 @@ public interface UserRepository extends CrudRepository<User, Long> {
     @Query(value = "INSERT INTO users (first_name, last_name, password, address, phone_number, email, role_id, warehouse_id, status, created_at, updated_at, created_by_id, updated_by_id) " +
             "VALUES (:first_name, :last_name, :password, :address, :phone_number, :email, :role_id, :warehouse_id, :status, :created_at, :updated_at, :created_by_id, :updated_by_id) " +
             "RETURNING id", nativeQuery = true)
-    Integer addUser(
+    Integer createUser(
             @Param("first_name") String firstName,
             @Param("last_name") String lastName,
             @Param("password") String password,

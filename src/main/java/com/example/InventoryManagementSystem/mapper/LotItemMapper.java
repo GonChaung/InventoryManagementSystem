@@ -1,16 +1,22 @@
 package com.example.InventoryManagementSystem.mapper;
 
-import com.example.InventoryManagementSystem.dto.LotItemDto;
-import com.example.InventoryManagementSystem.dto.RoleDTO;
-import com.example.InventoryManagementSystem.model.Item;
-import com.example.InventoryManagementSystem.model.Lot;
+import com.example.InventoryManagementSystem.dto.lotItem.LotItemResponseDTO;
+import com.example.InventoryManagementSystem.dto.lotItem.MasterLotItemDTO;
 import com.example.InventoryManagementSystem.model.LotItem;
-import com.example.InventoryManagementSystem.model.Role;
 import org.mapstruct.Mapper;
-import org.mapstruct.factory.Mappers;
-import org.springframework.stereotype.Component;
+import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
-public interface LotItemMapper extends BaseMapper<LotItem, LotItemDto>{
-    LotItemMapper INSTANCE = Mappers.getMapper(LotItemMapper.class);
+public interface LotItemMapper extends BaseMapper<LotItem, MasterLotItemDTO> {
+
+    @Override
+    @Mapping(source = "lotId", target = "lot.id")  // Map lotId to lot.id
+    @Mapping(source = "itemId", target = "item.id")  // Map itemId to item.id
+    LotItem toEntity(MasterLotItemDTO masterLotItemDTO);
+
+    @Override
+    @Mapping(source = "lot.id", target = "lotId", defaultValue = "0L")  // Map lot.id to lotId
+    @Mapping(source = "item.id", target = "itemId", defaultValue = "0L")  // Map item.id to itemId
+    LotItemResponseDTO toDto(LotItem lotItem);
 }
+
