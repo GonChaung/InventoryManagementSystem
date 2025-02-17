@@ -7,7 +7,7 @@ import org.mapstruct.MappingTarget;
 
 import java.util.List;
 
-public interface BaseMapper<T, D> {
+public interface  BaseMapper<T, D> {
 
     // Convert from entity to DTO
     D toDto(T entity);
