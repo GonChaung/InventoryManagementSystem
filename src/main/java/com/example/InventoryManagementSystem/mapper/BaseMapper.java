@@ -1,8 +1,5 @@
 package com.example.InventoryManagementSystem.mapper;
 
-import org.mapstruct.Mapper;
-
-import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
 
 import java.util.List;

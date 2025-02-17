@@ -1,4 +1,8 @@
 package com.example.InventoryManagementSystem.dto.lot;
 
-public class LotUpdateDTO {
+import lombok.Data;
+
+@Data
+public class LotUpdateDTO extends MasterLotDTO{
+    private Long id;
 }

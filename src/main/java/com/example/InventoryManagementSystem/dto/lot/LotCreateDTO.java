@@ -1,4 +1,7 @@
 package com.example.InventoryManagementSystem.dto.lot;
 
-public class LotCreateDTO {
+import lombok.Data;
+
+@Data
+public class LotCreateDTO extends MasterLotDTO{
 }
