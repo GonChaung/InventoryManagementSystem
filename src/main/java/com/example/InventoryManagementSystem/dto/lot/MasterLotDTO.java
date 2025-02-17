@@ -6,7 +6,7 @@ import lombok.Data;
 @Data
 public class MasterLotDTO {
     private String location;
-    private LotStatus lotstatus;
+    private LotStatus lotStatus;
     private Long warehouseId;
     private Long categoryId;
 }

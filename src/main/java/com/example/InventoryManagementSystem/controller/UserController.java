@@ -38,7 +38,7 @@ public class UserController {
 
         UserResponseDTO userDto = userService.createUser(userCreateDTO);
         URI location = UriComponentsBuilder
-                .fromUriString("/employees/{id}")
+                .fromUriString("/users/{id}")
                 .buildAndExpand(userDto.getId())
                 .toUri();
         return ResponseEntity.created(location).body(userDto); // Return 201 Created
@@ -59,7 +59,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserResponseDTO> getEmployeeById(@PathVariable Long id) {
+    public ResponseEntity<UserResponseDTO> getUserById(@PathVariable Long id) {
         try {
             UserResponseDTO userDto = userService.getUserById(id);
             return ResponseEntity.ok(userDto); // Return 200 if employee found
@@ -69,7 +69,7 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UserResponseDTO> updateEmployee(@PathVariable Long id, @RequestBody UserUpdateDTO userUpdateDto) {
+    public ResponseEntity<UserResponseDTO> updateUser(@PathVariable Long id, @RequestBody UserUpdateDTO userUpdateDto) {
         if (userUpdateDto == null) {
             return ResponseEntity.badRequest().build(); // Return 400 if request body is invalid
         }
@@ -82,7 +82,7 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteEmployee(@PathVariable Long id) {
+    public ResponseEntity<String> deleteUser(@PathVariable Long id) {
         try {
             userService.deleteUser(id);
             return ResponseEntity.ok("User with ID " + id + " has been deleted."); // Return 200 with success message

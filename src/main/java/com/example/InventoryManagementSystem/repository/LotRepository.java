@@ -18,14 +18,15 @@ public interface LotRepository extends CrudRepository<Lot, Long> {
     List<Lot> getAllLots();
 
     @Transactional
-    @Query(value = "INSERT INTO lots (location, warehouse_id, category_id, status, created_at, updated_at, created_by_id, updated_by_id ) " +
-            "VALUES (:location, :warehouse_id, :category_id, :status, :created_at, :updated_at, :created_by_id, :updated_by_id) " +
+    @Query(value = "INSERT INTO lots (location, warehouse_id, category_id, lot_status, status, created_at, updated_at, created_by_id, updated_by_id ) " +
+            "VALUES (:location, :warehouse_id, :category_id, :lot_status,:status, :created_at, :updated_at, :created_by_id, :updated_by_id) " +
             "RETURNING id", nativeQuery = true)
     Integer createLot(
             @Param("location") String location,
-            @Param("status") String status,
+            @Param("lot_status") Integer lot_status,
             @Param("warehouse_id") Long warehouseId,
             @Param("category_id") Long categoryId,
+            @Param("status") Integer status,
             @Param("created_at") LocalDateTime createdAt,
             @Param("updated_at") LocalDateTime updatedAt,
             @Param("created_by_id") Long createdById,
@@ -34,12 +35,13 @@ public interface LotRepository extends CrudRepository<Lot, Long> {
 
     @Modifying
     @Transactional
-    @Query(value = "UPDATE lots SET location = :location, warehouse_id = :warehouse_id, category_id = :category_id, updated_at = :updated_at WHERE id = :id", nativeQuery = true)
+    @Query(value = "UPDATE lots SET location = :location, warehouse_id = :warehouse_id, lot_status = :lot_status, category_id = :category_id, updated_at = :updated_at WHERE id = :id", nativeQuery = true)
     int updateLotById(
             @Param("id") Long id,
             @Param("location") String location,
             @Param("warehouse_id") Long warehouseId,
             @Param("category_id") Long categoryId,
+            @Param("lot_status") Integer lotStatus,
             @Param("updated_at") LocalDateTime updatedAt
     );
 

@@ -3,6 +3,6 @@ package com.example.InventoryManagementSystem.dto.lot;
 import lombok.Data;
 
 @Data
-public class LotUpdateDTO {
+public class LotUpdateDTO extends MasterLotDTO{
     private Long id;
 }

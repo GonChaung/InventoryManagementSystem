@@ -1,15 +1,15 @@
 package com.example.InventoryManagementSystem.service;
 
-import com.example.InventoryManagementSystem.dto.item.ItemCreateDTO;
-import com.example.InventoryManagementSystem.dto.item.ItemResponseDTO;
-import com.example.InventoryManagementSystem.dto.item.ItemUpdateDTO;
+import com.example.InventoryManagementSystem.dto.lot.LotCreateDTO;
+import com.example.InventoryManagementSystem.dto.lot.LotResponseDTO;
+import com.example.InventoryManagementSystem.dto.lot.LotUpdateDTO;
 
 import java.util.List;
 
 public interface LotService {
-    ItemResponseDTO createItem(ItemCreateDTO itemCreateDTO);
-    ItemResponseDTO getItemById(Long id);
-    List<ItemResponseDTO> getAllItems();
-    ItemResponseDTO updateItemById(Long id, ItemUpdateDTO itemUpdateDTO);
-    void deleteItem(Long id);
+    LotResponseDTO createLot(LotCreateDTO lotCreateDTO);
+    LotResponseDTO getLotById(Long id);
+    List<LotResponseDTO> getAllLots();
+    LotResponseDTO updateLotById(Long id, LotUpdateDTO lotUpdateDTO);
+    void deleteLot(Long id);
 }

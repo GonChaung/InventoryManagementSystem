@@ -1,4 +1,5 @@
 package com.example.InventoryManagementSystem.mapper;
+
 import com.example.InventoryManagementSystem.dto.user.MasterUserDTO;
 import com.example.InventoryManagementSystem.dto.user.UserResponseDTO;
 import com.example.InventoryManagementSystem.model.User;
