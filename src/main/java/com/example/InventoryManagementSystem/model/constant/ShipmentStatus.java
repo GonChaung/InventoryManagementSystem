@@ -14,6 +14,6 @@ public enum ShipmentStatus implements BaseEnum<Integer>{
 
     @Override
     public Integer getValue() {
-        return this.value;
+        return value;
     }
 }

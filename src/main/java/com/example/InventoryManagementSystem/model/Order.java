@@ -1,6 +1,7 @@
 package com.example.InventoryManagementSystem.model;
 
 import com.example.InventoryManagementSystem.model.constant.OrderStatus;
+import com.example.InventoryManagementSystem.model.converter.OrderStatusConverter;
 import com.example.InventoryManagementSystem.model.converter.StatusConverter;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -32,7 +33,7 @@ public class Order extends MasterData{
     private Double totalCost;
 
     @Column(nullable = false)
-    @Convert(converter = StatusConverter.class)
+    @Convert(converter = OrderStatusConverter.class)
     private OrderStatus orderStatus;
 
     @ManyToOne

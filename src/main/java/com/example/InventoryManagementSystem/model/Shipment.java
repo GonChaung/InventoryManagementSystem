@@ -2,12 +2,12 @@ package com.example.InventoryManagementSystem.model;
 
 import com.example.InventoryManagementSystem.model.constant.ShipmentStatus;
 import com.example.InventoryManagementSystem.model.converter.ShipmentStatusConverter;
-import com.example.InventoryManagementSystem.model.converter.StatusConverter;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import java.util.Date;
+
+import java.time.LocalDateTime;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.SuperBuilder;
 
@@ -21,12 +21,11 @@ import lombok.experimental.SuperBuilder;
 public class Shipment extends MasterData{
 
     @Column(nullable = false)
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date shipmentDate;
+    private LocalDateTime shipmentDate;
 
     @Column(nullable = false)
     @Convert(converter = ShipmentStatusConverter.class)
-    private ShipmentStatus shipmentStatus;
+    private ShipmentStatus shipmentStatus = ShipmentStatus.PENDING;
 
     @Column
     private String delivery_company;
