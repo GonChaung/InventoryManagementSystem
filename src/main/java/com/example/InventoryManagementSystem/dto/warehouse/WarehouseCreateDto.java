@@ -1,4 +1,7 @@
 package com.example.InventoryManagementSystem.dto.warehouse;
 
-public class WarehouseCreateDto {
+import lombok.Data;
+
+@Data
+public class WarehouseCreateDto extends MasterWarehouseDto{
 }
