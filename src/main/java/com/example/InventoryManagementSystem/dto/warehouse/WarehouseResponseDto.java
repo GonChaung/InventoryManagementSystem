@@ -10,7 +10,7 @@ public class WarehouseResponseDto extends MasterWarehouseDto{
     private Status status;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-    private Long createdBy;
-    private Long updatedBy;
+    private Long createdById;
+    private Long updatedById;
 
 }
