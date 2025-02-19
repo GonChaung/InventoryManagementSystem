@@ -7,15 +7,15 @@ import com.example.InventoryManagementSystem.exception.ResourceNotFoundException
 import com.example.InventoryManagementSystem.mapper.OrderMapper;
 import com.example.InventoryManagementSystem.model.Order;
 import com.example.InventoryManagementSystem.model.constant.Status;
+import com.example.InventoryManagementSystem.repository.OrderItemRepository;
 import com.example.InventoryManagementSystem.repository.OrderRepository;
+import com.example.InventoryManagementSystem.repository.ShipmentRepository;
 import com.example.InventoryManagementSystem.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -23,11 +23,15 @@ public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
     private final OrderMapper orderMapper;
+    private final ShipmentRepository shipmentRepository;
+    private final OrderItemRepository orderItemRepository;
 
     @Autowired
-    public OrderServiceImpl(OrderRepository orderRepository, OrderMapper orderMapper) {
+    public OrderServiceImpl(OrderRepository orderRepository, OrderMapper orderMapper, ShipmentRepository shipmentRepository, OrderItemRepository orderItemRepository) {
         this.orderRepository = orderRepository;
         this.orderMapper = orderMapper;
+        this.shipmentRepository = shipmentRepository;
+        this.orderItemRepository = orderItemRepository;
     }
 
     @Override
@@ -68,28 +72,33 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderResponseDto updateOrderById(Long id, OrderUpdateDto orderUpdateDto) {
-        findOrderById(id); // Ensure order exists
+        Order order = findOrderById(id); // Ensure order exists
+        orderMapper.updateEntityFromDto(orderUpdateDto, order); // Map DTO fields to the existing entity
 
-        int updatedRows = orderRepository.updateOrderById(
-                id,
-                orderUpdateDto.getOrderDiscount(),
-                orderUpdateDto.getTotalCost(),
-                orderUpdateDto.getOrderStatus().getValue(),
-                orderUpdateDto.getCustomerId(),
-                LocalDateTime.now()
-        );
-
+        int updatedRows = orderRepository.updateOrderById(order);
         if (updatedRows == 0) {
             throw new ResourceNotFoundException("Order with ID " + id + " doesn't exist!");
         }
-
         return getOrderById(id);
     }
 
     @Override
-    public void deleteOrder(Long id) {
-        findOrderById(id);
-        orderRepository.deleteOrderById(id);
+    public void softDeleteOrder(Long id) {
+        Order order=findOrderById(id);
+        order.setStatus(Status.INACTIVE);
+        orderRepository.updateOrderById(order);
+    }
+
+    @Override
+    public void hardDeleteOrder(Long id){
+        Order order = findOrderById(id);
+
+        // Delete associated shipments first
+        shipmentRepository.deleteByOrderId(id);
+        // Delete associated order items
+        orderItemRepository.deleteByOrderId(id);
+        // Now delete the order itself
+        orderRepository.delete(order);
     }
 
     private Order findOrderById(Long id) {

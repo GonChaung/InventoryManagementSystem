@@ -49,10 +49,18 @@ public class OrderController {
         return ResponseEntity.ok(orderService.updateOrderById(id, orderUpdateDto));
     }
 
+    // SOFT DELETE (Set order status to INACTIVE)
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteOrder(@PathVariable Long id) {
-        orderService.deleteOrder(id);
-        return ResponseEntity.ok("Order deleted successfully.");
+    public ResponseEntity<String> softDeleteOrder(@PathVariable Long id) {
+        orderService.softDeleteOrder(id);
+        return ResponseEntity.ok("Order marked as INACTIVE.");
+    }
+
+    // HARD DELETE (Permanently remove the order)
+    @DeleteMapping("/{id}/hard")
+    public ResponseEntity<String> hardDeleteOrder(@PathVariable Long id) {
+        orderService.hardDeleteOrder(id);
+        return ResponseEntity.ok("Order permanently deleted.");
     }
 }
 

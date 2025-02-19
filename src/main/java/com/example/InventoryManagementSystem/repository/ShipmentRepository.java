@@ -52,5 +52,10 @@ public interface ShipmentRepository extends JpaRepository<Shipment, Long> {
     @Transactional
     @Query(value = "DELETE FROM shipments WHERE id = :id", nativeQuery = true)
     int deleteShipmentById(@Param("id") Long id);
+
+    @Modifying
+    @Transactional
+    @Query("DELETE FROM Shipment s WHERE s.order.id = :orderId")
+    void deleteByOrderId(@Param("orderId") Long orderId);
 }
 

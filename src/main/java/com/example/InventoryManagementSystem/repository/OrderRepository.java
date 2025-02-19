@@ -42,15 +42,14 @@ public interface OrderRepository extends CrudRepository<Order, Long> {
 
     @Modifying
     @Transactional
-    @Query(value = "UPDATE orders SET order_discount = :orderDiscount, total_cost = :totalCost, order_status = :orderStatus, customer_id = :customerId, updated_at = :updatedAt WHERE id = :id", nativeQuery = true)
-    int updateOrderById(
-            @Param("id") Long id,
-            @Param("orderDiscount") Double orderDiscount,
-            @Param("totalCost") Double totalCost,
-            @Param("orderStatus") Integer orderStatus,
-            @Param("customerId") Long customerId,
-            @Param("updatedAt") LocalDateTime updatedAt
-    );
+    @Query(value = "UPDATE orders SET order_discount = :#{#orderUpdate.orderDiscount}, " +
+            "total_cost = :#{#orderUpdate.totalCost}, " +
+            "order_status = :#{#orderUpdate.orderStatus}, " +
+            "customer_id = :#{#orderUpdate.customer.id}, " +
+            "updated_at = :#{#orderUpdate.updatedAt} " +
+            "WHERE id = :#{#orderUpdate.id}", nativeQuery = true)
+    int updateOrderById(@Param("orderUpdate") Order orderUpdate);
+
 
     @Modifying
     @Transactional
