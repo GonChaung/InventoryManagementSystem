@@ -12,6 +12,6 @@ public enum ReceivedStatus implements BaseEnum<Integer>{
 
     @Override
     public Integer getValue() {
-        return 0;
+        return value;
     }
 }

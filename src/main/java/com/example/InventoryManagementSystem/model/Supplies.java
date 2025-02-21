@@ -2,6 +2,8 @@ package com.example.InventoryManagementSystem.model;
 
 import com.example.InventoryManagementSystem.model.constant.PaymentStatus;
 import com.example.InventoryManagementSystem.model.constant.ReceivedStatus;
+import com.example.InventoryManagementSystem.model.converter.PaymentStatusConverter;
+import com.example.InventoryManagementSystem.model.converter.ReceivedStatusConverter;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -39,6 +41,7 @@ public class Supplies extends MasterData{
     @Column(nullable = false)
     private Double totalCost;
 
+    @Convert(converter = PaymentStatusConverter.class)
     @Column(nullable = false)
     private PaymentStatus paymentStatus;
 
@@ -50,6 +53,7 @@ public class Supplies extends MasterData{
     @Temporal(TemporalType.TIMESTAMP)
     private Date receivedDate;
 
+    @Convert(converter = ReceivedStatusConverter.class)
     @Column(nullable = false)
     private ReceivedStatus receivedStatus;
 }

@@ -55,7 +55,7 @@ public class SupplierController {
             }
             return ResponseEntity.ok(suppliers);
         } catch (Exception e) {
-            log.error("Error fetching customers: {}", e.getMessage(),e);
+            log.error("Error fetching suppliers: {}", e.getMessage(),e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }

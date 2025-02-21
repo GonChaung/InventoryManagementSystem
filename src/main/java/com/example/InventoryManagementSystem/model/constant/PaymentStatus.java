@@ -14,6 +14,6 @@ public enum PaymentStatus implements BaseEnum<Integer>{
 
         @Override
         public Integer getValue() {
-            return 0;
+            return value;
         }
 }
