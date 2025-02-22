@@ -6,7 +6,7 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
-public class OrderItemResponseDto extends MasterOrderItem {
+public class OrderItemResponseDto extends MasterOrderItemDto {
     private Long id;
     private Status status;
     private LocalDateTime createdAt;

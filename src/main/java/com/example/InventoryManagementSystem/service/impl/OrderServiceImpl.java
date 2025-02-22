@@ -96,7 +96,7 @@ public class OrderServiceImpl implements OrderService {
         // Delete associated shipments first
         shipmentRepository.deleteByOrderId(id);
         // Delete associated order items
-        orderItemRepository.deleteByOrderId(id);
+        orderItemRepository.deleteOrderItemById(id);
         // Now delete the order itself
         orderRepository.delete(order);
     }
