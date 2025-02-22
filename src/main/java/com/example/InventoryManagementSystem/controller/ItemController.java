@@ -2,6 +2,7 @@ package com.example.InventoryManagementSystem.controller;
 
 
 
+import com.example.InventoryManagementSystem.dto.ItemStockDTO;
 import com.example.InventoryManagementSystem.dto.item.ItemCreateDTO;
 import com.example.InventoryManagementSystem.dto.item.ItemResponseDTO;
 import com.example.InventoryManagementSystem.dto.item.ItemUpdateDTO;
@@ -93,5 +94,10 @@ public class ItemController {
         } catch(Exception e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred while deleting item.");
         }
+    }
+
+    @GetMapping("/stock")
+    public List<ItemStockDTO> getItemStockDetails() {
+        return itemService.getItemStockDetails();
     }
 }

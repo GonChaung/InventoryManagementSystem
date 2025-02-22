@@ -1,5 +1,6 @@
 package com.example.InventoryManagementSystem.service.impl;
 
+import com.example.InventoryManagementSystem.dto.ItemStockDTO;
 import com.example.InventoryManagementSystem.dto.item.ItemCreateDTO;
 import com.example.InventoryManagementSystem.dto.item.ItemResponseDTO;
 import com.example.InventoryManagementSystem.dto.item.ItemUpdateDTO;
@@ -103,5 +104,9 @@ public class ItemServiceImpl implements ItemService {
     private Item findItemById(Long id) {
         return Optional.ofNullable(itemRepository.getItemById(id))
                 .orElseThrow(() -> new ResourceNotFoundException("Item not found with ID: " + id));
+    }
+
+    public List<ItemStockDTO> getItemStockDetails() {
+        return itemRepository.findItemStockDetails();
     }
 }

@@ -1,5 +1,6 @@
 package com.example.InventoryManagementSystem.service.impl;
 
+import com.example.InventoryManagementSystem.dto.OrderDetailsDTO;
 import com.example.InventoryManagementSystem.dto.order.OrderCreateDto;
 import com.example.InventoryManagementSystem.dto.order.OrderResponseDto;
 import com.example.InventoryManagementSystem.dto.order.OrderUpdateDto;
@@ -15,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -105,4 +107,9 @@ public class OrderServiceImpl implements OrderService {
         return orderRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Order not found for ID " + id));
     }
+
+    public List<OrderDetailsDTO> getOrderDetails() {
+        return orderRepository.findOrderDetails();
+    }
+
 }

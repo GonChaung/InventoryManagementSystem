@@ -1,5 +1,6 @@
 package com.example.InventoryManagementSystem.repository;
 
+import com.example.InventoryManagementSystem.dto.ItemStockDTO;
 import com.example.InventoryManagementSystem.model.Item;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.data.jpa.repository.Modifying;
@@ -54,5 +55,11 @@ public interface ItemRepository extends CrudRepository<Item, Long> {
 
     @Query("SELECT i FROM Item i JOIN FETCH i.category WHERE i.id = :id")
     Optional<Item> findItemById(@Param("id") Long id);
+
+    @Query("SELECT i.id AS id, i.name AS name, c.name AS categoryName, i.price AS price, li.quantity AS quantity " +
+            "FROM Item i " +
+            "JOIN i.category c " +
+            "JOIN LotItem li ON i.id = li.item.id")
+    List<ItemStockDTO> findItemStockDetails();
 }
 

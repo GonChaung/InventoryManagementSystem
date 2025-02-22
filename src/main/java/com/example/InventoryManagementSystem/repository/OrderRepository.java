@@ -1,5 +1,6 @@
 package com.example.InventoryManagementSystem.repository;
 
+import com.example.InventoryManagementSystem.dto.OrderDetailsDTO;
 import com.example.InventoryManagementSystem.dto.order.MasterOrderDto;
 import com.example.InventoryManagementSystem.model.Order;
 import org.springframework.data.jpa.repository.Modifying;
@@ -51,8 +52,14 @@ public interface OrderRepository extends CrudRepository<Order, Long> {
     int updateOrderById(@Param("orderUpdate") Order orderUpdate);
 
 
-    @Modifying
-    @Transactional
-    @Query(value = "DELETE FROM orders WHERE id = :id", nativeQuery = true)
-    void deleteOrderById(@Param("id") Long id);
+    @Query("SELECT new com.example.InventoryManagementSystem.dto.OrderDetailsDTO(" +
+            "o.id, " +
+            "CONCAT(c.firstName, ' ', c.lastName), " +
+            "TO_CHAR(o.orderDate, 'YYYY-MM-DD HH24:MI:SS'), " +
+            "o.totalCost, " +
+            "o.orderStatus) " +
+            "FROM Order o " +
+            "JOIN o.customer c")
+    List<OrderDetailsDTO> findOrderDetails();
+
 }
