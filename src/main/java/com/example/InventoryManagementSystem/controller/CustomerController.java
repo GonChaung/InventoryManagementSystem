@@ -1,10 +1,9 @@
 package com.example.InventoryManagementSystem.controller;
 
-import com.example.InventoryManagementSystem.dto.customer.CustomerCreateDTO;
-import com.example.InventoryManagementSystem.dto.customer.CustomerResponseDTO;
+import com.example.InventoryManagementSystem.dto.customer.SupplierCreateDTO;
+import com.example.InventoryManagementSystem.dto.customer.SupplierResponseDTO;
 import com.example.InventoryManagementSystem.dto.customer.CustomerUpdateDTO;
 import com.example.InventoryManagementSystem.exception.ResourceNotFoundException;
-import com.example.InventoryManagementSystem.model.Customer;
 import com.example.InventoryManagementSystem.service.CustomerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,12 +33,12 @@ public class CustomerController {
     }
 
     @PostMapping
-    public ResponseEntity<CustomerResponseDTO> createCustomer(@RequestBody CustomerCreateDTO customerCreateDTO) {
+    public ResponseEntity<SupplierResponseDTO> createCustomer(@RequestBody SupplierCreateDTO customerCreateDTO) {
         if (customerCreateDTO == null) {
             return ResponseEntity.badRequest().build();
         }
 
-        CustomerResponseDTO customerDTO = customerService.createCustomer(customerCreateDTO);
+        SupplierResponseDTO customerDTO = customerService.createCustomer(customerCreateDTO);
         URI location = UriComponentsBuilder
                 .fromUriString("/customers/{id}")
                 .buildAndExpand(customerDTO.getId())
@@ -48,9 +47,9 @@ public class CustomerController {
     }
 
     @GetMapping
-    public ResponseEntity<List<CustomerResponseDTO>> getAllCustomers() {
+    public ResponseEntity<List<SupplierResponseDTO>> getAllCustomers() {
         try {
-            List<CustomerResponseDTO> customers = customerService.getAllCustomers();
+            List<SupplierResponseDTO> customers = customerService.getAllCustomers();
             if (customers.isEmpty()) {
                 return ResponseEntity.noContent().build();
             }
@@ -62,9 +61,9 @@ public class CustomerController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<CustomerResponseDTO> getCustomerById(@PathVariable Long id) {
+    public ResponseEntity<SupplierResponseDTO> getCustomerById(@PathVariable Long id) {
         try {
-            CustomerResponseDTO customerDTO = customerService.getCustomerById(id);
+            SupplierResponseDTO customerDTO = customerService.getCustomerById(id);
             return ResponseEntity.ok(customerDTO);
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.status(NOT_FOUND).build();
@@ -72,12 +71,12 @@ public class CustomerController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<CustomerResponseDTO> updateCustomer(@PathVariable Long id, @RequestBody CustomerUpdateDTO customerUpdateDTO) {
+    public ResponseEntity<SupplierResponseDTO> updateCustomer(@PathVariable Long id, @RequestBody CustomerUpdateDTO customerUpdateDTO) {
         if (customerUpdateDTO == null) {
             return ResponseEntity.badRequest().build();
         }
         try{
-            CustomerResponseDTO customerResponseDTO = customerService.updateCustomerById(id, customerUpdateDTO);
+            SupplierResponseDTO customerResponseDTO = customerService.updateCustomerById(id, customerUpdateDTO);
             return ResponseEntity.ok(customerResponseDTO);
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.status(NOT_FOUND).build();

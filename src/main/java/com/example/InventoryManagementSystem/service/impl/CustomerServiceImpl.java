@@ -1,7 +1,7 @@
 package com.example.InventoryManagementSystem.service.impl;
 
-import com.example.InventoryManagementSystem.dto.customer.CustomerCreateDTO;
-import com.example.InventoryManagementSystem.dto.customer.CustomerResponseDTO;
+import com.example.InventoryManagementSystem.dto.customer.SupplierCreateDTO;
+import com.example.InventoryManagementSystem.dto.customer.SupplierResponseDTO;
 import com.example.InventoryManagementSystem.dto.customer.CustomerUpdateDTO;
 import com.example.InventoryManagementSystem.exception.ResourceNotFoundException;
 import com.example.InventoryManagementSystem.mapper.CustomerMapper;
@@ -10,7 +10,6 @@ import com.example.InventoryManagementSystem.model.constant.Status;
 import com.example.InventoryManagementSystem.repository.CustomerRepository;
 import com.example.InventoryManagementSystem.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -32,7 +31,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public CustomerResponseDTO createCustomer(CustomerCreateDTO customerCreateDTO) {
+    public SupplierResponseDTO createCustomer(SupplierCreateDTO customerCreateDTO) {
 
         Customer customer = customerMapper.toEntity(customerCreateDTO);
         Integer id = customerRepository.createCustomer(
@@ -54,7 +53,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public CustomerResponseDTO updateCustomerById(Long id, CustomerUpdateDTO customerUpdateDTO) {
+    public SupplierResponseDTO updateCustomerById(Long id, CustomerUpdateDTO customerUpdateDTO) {
         Customer customer = customerMapper.toEntity(customerUpdateDTO);
 
         int flag = customerRepository.updateCustomerById(id,
@@ -72,13 +71,13 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public CustomerResponseDTO getCustomerById(Long id) {
+    public SupplierResponseDTO getCustomerById(Long id) {
         Customer customer = findCustomerById(id);
         return customerMapper.toDto(customer);
     }
 
     @Override
-    public List<CustomerResponseDTO> getAllCustomers() {
+    public List<SupplierResponseDTO> getAllCustomers() {
         List<Customer> result = customerRepository.getAllCustomers();
         if (result == null || result.isEmpty()) {
             return Collections.emptyList();
