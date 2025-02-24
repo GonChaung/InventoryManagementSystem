@@ -13,4 +13,5 @@ public class ItemResponseDTO extends MasterItemDTO {
     private LocalDateTime updatedAt;
     private Long createdById;
     private Long updatedById;
+    private int quantity;
 }

@@ -6,19 +6,17 @@ import com.example.InventoryManagementSystem.dto.item.ItemResponseDTO;
 import com.example.InventoryManagementSystem.dto.item.ItemUpdateDTO;
 import com.example.InventoryManagementSystem.exception.ResourceNotFoundException;
 import com.example.InventoryManagementSystem.mapper.ItemMapper;
-import com.example.InventoryManagementSystem.model.Category;
-import com.example.InventoryManagementSystem.model.Item;
+import com.example.InventoryManagementSystem.model.*;
 import com.example.InventoryManagementSystem.model.constant.Status;
-import com.example.InventoryManagementSystem.repository.CategoryRepository;
-import com.example.InventoryManagementSystem.repository.ItemRepository;
+import com.example.InventoryManagementSystem.repository.*;
 
-import com.example.InventoryManagementSystem.repository.UserRepository;
 import com.example.InventoryManagementSystem.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -29,19 +27,41 @@ public class ItemServiceImpl implements ItemService {
     private final CategoryRepository categoryRepository;
     private final ItemMapper itemMapper;
     private final UserRepository userRepository;
+    private final LotRepository lotRepository;
+    private final LotItemRepository lotItemRepository;
 
     @Autowired
-    public ItemServiceImpl(ItemRepository itemRepository, CategoryRepository categoryRepository, ItemMapper itemMapper, UserRepository userRepository) {
+    public ItemServiceImpl(ItemRepository itemRepository, CategoryRepository categoryRepository, ItemMapper itemMapper, UserRepository userRepository, LotRepository lotRepository,
+                           LotItemRepository lotItemRepository) {
         this.itemRepository = itemRepository;
         this.categoryRepository = categoryRepository;
         this.itemMapper = itemMapper;
         this.userRepository = userRepository;
+        this.lotRepository = lotRepository;
+        this.lotItemRepository = lotItemRepository;
     }
+
 
     @Override
     public List<ItemResponseDTO> getAllItems() {
-        return itemRepository.getAllItems().stream().map(itemMapper::toDto).collect(Collectors.toList());
+        List<ItemResponseDTO> items = itemRepository.getAllItems()
+                .stream()
+                .map(itemMapper::toDto)
+                .collect(Collectors.toList());
+
+        // Fetch total quantities
+        List<ItemInventoryProjection> quantities = itemRepository.getTotalItemQuantities();
+
+        // Map itemId -> quantity for fast lookup
+        Map<Long, Integer> quantityMap = quantities.stream()
+                .collect(Collectors.toMap(ItemInventoryProjection::getItemId, ItemInventoryProjection::getTotalQuantity));
+
+        // Set quantity in ItemResponseDTO
+        items.forEach(item -> item.setQuantity(quantityMap.getOrDefault(item.getId(), 0)));
+
+        return items;
     }
+
 
     @Override
     public ItemResponseDTO getItemById(Long id) {
@@ -49,7 +69,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public ItemResponseDTO createItem(ItemCreateDTO itemCreatedDTO) {
+    public ItemResponseDTO createItem(ItemCreateDTO itemCreatedDTO, int quantity) {
         Item item = itemMapper.toEntity(itemCreatedDTO);
 
         if (item.getCategory() == null || item.getCategory().getId() == null) {
@@ -58,7 +78,7 @@ public class ItemServiceImpl implements ItemService {
             item.setCategory(category);
         }
 
-        Integer id = itemRepository.createItem(
+        Integer itemId = itemRepository.createItem(
                 item.getName(),
                 item.getPrice(),
                 item.getCategory().getId(),
@@ -68,8 +88,24 @@ public class ItemServiceImpl implements ItemService {
                 null, null
         );
 
-        return itemMapper.toDto(findItemById((long)id));
+        // Find the newly created item
+        Item createdItem = findItemById((long) itemId);
+
+        // Fetch or create a Lot entity (assuming a default lot exists)
+        Lot defaultLot = lotRepository.findDefaultLot()
+                .orElseThrow(() -> new RuntimeException("Default Lot not found"));
+
+        // Create and save LotItem
+        LotItem lotItem = new LotItem();
+        lotItem.setItem(createdItem);
+        lotItem.setLot(defaultLot);
+        lotItem.setQuantity(quantity);
+
+        lotItemRepository.save(lotItem);
+
+        return itemMapper.toDto(createdItem);
     }
+
 
     @Override
     public ItemResponseDTO updateItemById(Long id, ItemUpdateDTO itemDto) {
@@ -108,5 +144,9 @@ public class ItemServiceImpl implements ItemService {
 
     public List<ItemStockDTO> getItemStockDetails() {
         return itemRepository.findItemStockDetails();
+    }
+
+    public List<ItemInventoryProjection> getTotalItemQuantities() {
+        return itemRepository.getTotalItemQuantities();
     }
 }

@@ -52,6 +52,22 @@ public interface LotItemRepository extends CrudRepository<LotItem, Long> {
     @Transactional
     @Query(value = "DELETE FROM lot_items WHERE id = :id", nativeQuery = true)
     int deleteLotItemById(@Param("id") Long id);
+
+    @Modifying
+    @Transactional
+    @Query(value = "INSERT INTO lot_items (lot_id, item_id, quantity, status, created_at, updated_at, created_by_id, updated_by_id) " +
+            "VALUES (:lot_id, :item_id, :quantity, :status, :created_at, :updated_at, :created_by_id, :updated_by_id)",
+            nativeQuery = true)
+    void insertLotItem(
+            @Param("lot_id") Long lotId,
+            @Param("item_id") Long itemId,
+            @Param("quantity") int quantity,
+            @Param("status") Integer status,
+            @Param("created_at") LocalDateTime createdAt,
+            @Param("updated_at") LocalDateTime updatedAt,
+            @Param("created_by_id") Long createdById,
+            @Param("updated_by_id") Long updatedById
+    );
 }
 
 

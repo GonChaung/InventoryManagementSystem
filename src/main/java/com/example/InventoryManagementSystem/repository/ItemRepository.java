@@ -2,6 +2,7 @@ package com.example.InventoryManagementSystem.repository;
 
 import com.example.InventoryManagementSystem.dto.ItemStockDTO;
 import com.example.InventoryManagementSystem.model.Item;
+import com.example.InventoryManagementSystem.model.ItemInventoryProjection;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -61,5 +62,17 @@ public interface ItemRepository extends CrudRepository<Item, Long> {
             "JOIN i.category c " +
             "JOIN LotItem li ON i.id = li.item.id")
     List<ItemStockDTO> findItemStockDetails();
+
+    @Query(value = """
+        SELECT 
+            i.id AS itemId, 
+            i.name AS itemName, 
+            COALESCE(SUM(li.quantity), 0) AS totalQuantity
+        FROM items i
+        LEFT JOIN lot_items li ON i.id = li.item_id
+        GROUP BY i.id, i.name
+        ORDER BY i.id
+        """, nativeQuery = true)
+    List<ItemInventoryProjection> getTotalItemQuantities();
 }
 

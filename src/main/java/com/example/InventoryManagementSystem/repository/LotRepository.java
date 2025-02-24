@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface LotRepository extends CrudRepository<Lot, Long> {
@@ -52,4 +53,7 @@ public interface LotRepository extends CrudRepository<Lot, Long> {
     @Transactional
     @Query(value = "DELETE FROM lots WHERE id = :id", nativeQuery = true)
     int deleteLotById(@Param("id") Long id);
+
+    @Query(value = "SELECT * FROM lots WHERE is_default = true LIMIT 1", nativeQuery = true)
+    Optional<Lot> findDefaultLot();
 }

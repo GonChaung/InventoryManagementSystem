@@ -7,6 +7,7 @@ import com.example.InventoryManagementSystem.dto.item.ItemCreateDTO;
 import com.example.InventoryManagementSystem.dto.item.ItemResponseDTO;
 import com.example.InventoryManagementSystem.dto.item.ItemUpdateDTO;
 import com.example.InventoryManagementSystem.exception.ResourceNotFoundException;
+import com.example.InventoryManagementSystem.model.ItemInventoryProjection;
 import com.example.InventoryManagementSystem.service.impl.ItemServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,11 +34,12 @@ public class ItemController {
     }
 
     @PostMapping
-    public ResponseEntity<ItemResponseDTO> createItem(@RequestBody ItemCreateDTO itemCreateDTO){
-        if (itemCreateDTO == null){
+    public ResponseEntity<ItemResponseDTO> createItem(@RequestBody ItemCreateDTO itemCreateDTO) {
+        if (itemCreateDTO == null) {
             return ResponseEntity.badRequest().build();
         }
-        ItemResponseDTO createdItem = itemService.createItem(itemCreateDTO);
+        ItemResponseDTO createdItem = itemService.createItem(itemCreateDTO, itemCreateDTO.getQuantity());
+
         URI location = UriComponentsBuilder
                 .fromUriString("/item/{id}")
                 .buildAndExpand(createdItem.getId())
@@ -45,6 +47,7 @@ public class ItemController {
 
         return ResponseEntity.created(location).body(createdItem);
     }
+
 
     @GetMapping
     public ResponseEntity<List<ItemResponseDTO>> getAllItems(){
@@ -99,5 +102,10 @@ public class ItemController {
     @GetMapping("/stock")
     public List<ItemStockDTO> getItemStockDetails() {
         return itemService.getItemStockDetails();
+    }
+
+    @GetMapping("/inventory")
+    public List<ItemInventoryProjection> getItemInventory() {
+        return itemService.getTotalItemQuantities();
     }
 }
