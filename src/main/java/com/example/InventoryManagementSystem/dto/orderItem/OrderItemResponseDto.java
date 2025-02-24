@@ -13,4 +13,5 @@ public class OrderItemResponseDto extends MasterOrderItemDto {
     private LocalDateTime updatedAt;
     private Long createdById;
     private Long updatedById;
+    private Double totalItemDiscount;
 }

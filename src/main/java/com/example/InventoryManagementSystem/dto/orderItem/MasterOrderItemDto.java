@@ -8,5 +8,4 @@ public class MasterOrderItemDto {
     private Long itemId;
     private Double itemDiscount;
     private int quantity;
-    private Double totalItemCost;
 }
