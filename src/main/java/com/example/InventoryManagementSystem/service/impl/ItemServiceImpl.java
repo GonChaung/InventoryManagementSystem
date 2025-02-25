@@ -44,22 +44,7 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public List<ItemResponseDTO> getAllItems() {
-        List<ItemResponseDTO> items = itemRepository.getAllItems()
-                .stream()
-                .map(itemMapper::toDto)
-                .collect(Collectors.toList());
-
-        // Fetch total quantities
-        List<ItemInventoryProjection> quantities = itemRepository.getTotalItemQuantities();
-
-        // Map itemId -> quantity for fast lookup
-        Map<Long, Integer> quantityMap = quantities.stream()
-                .collect(Collectors.toMap(ItemInventoryProjection::getItemId, ItemInventoryProjection::getTotalQuantity));
-
-        // Set quantity in ItemResponseDTO
-        items.forEach(item -> item.setQuantity(quantityMap.getOrDefault(item.getId(), 0)));
-
-        return items;
+        return itemRepository.getAllItems().stream().map(itemMapper::toDto).collect(Collectors.toList());
     }
 
 
@@ -69,7 +54,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public ItemResponseDTO createItem(ItemCreateDTO itemCreatedDTO, int quantity) {
+    public ItemResponseDTO createItem(ItemCreateDTO itemCreatedDTO) {
         Item item = itemMapper.toEntity(itemCreatedDTO);
 
         if (item.getCategory() == null || item.getCategory().getId() == null) {
@@ -78,7 +63,7 @@ public class ItemServiceImpl implements ItemService {
             item.setCategory(category);
         }
 
-        Integer itemId = itemRepository.createItem(
+        Integer id = itemRepository.createItem(
                 item.getName(),
                 item.getPrice(),
                 item.getCategory().getId(),
@@ -88,23 +73,9 @@ public class ItemServiceImpl implements ItemService {
                 null, null
         );
 
-        // Find the newly created item
-        Item createdItem = findItemById((long) itemId);
-
-        // Fetch or create a Lot entity (assuming a default lot exists)
-        Lot defaultLot = lotRepository.findDefaultLot()
-                .orElseThrow(() -> new RuntimeException("Default Lot not found"));
-
-        // Create and save LotItem
-        LotItem lotItem = new LotItem();
-        lotItem.setItem(createdItem);
-        lotItem.setLot(defaultLot);
-        lotItem.setQuantity(quantity);
-
-        lotItemRepository.save(lotItem);
-
-        return itemMapper.toDto(createdItem);
+        return itemMapper.toDto(findItemById((long)id));
     }
+
 
 
     @Override

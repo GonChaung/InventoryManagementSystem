@@ -4,5 +4,4 @@ import lombok.Data;
 
 @Data
 public class ItemCreateDTO extends MasterItemDTO {
-    private int quantity;
 }

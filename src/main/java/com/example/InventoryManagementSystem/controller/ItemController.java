@@ -34,12 +34,11 @@ public class ItemController {
     }
 
     @PostMapping
-    public ResponseEntity<ItemResponseDTO> createItem(@RequestBody ItemCreateDTO itemCreateDTO) {
-        if (itemCreateDTO == null) {
+    public ResponseEntity<ItemResponseDTO> createItem(@RequestBody ItemCreateDTO itemCreateDTO){
+        if (itemCreateDTO == null){
             return ResponseEntity.badRequest().build();
         }
-        ItemResponseDTO createdItem = itemService.createItem(itemCreateDTO, itemCreateDTO.getQuantity());
-
+        ItemResponseDTO createdItem = itemService.createItem(itemCreateDTO);
         URI location = UriComponentsBuilder
                 .fromUriString("/item/{id}")
                 .buildAndExpand(createdItem.getId())
